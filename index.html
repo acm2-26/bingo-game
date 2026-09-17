@@ -26,7 +26,6 @@
       min-height: 100vh;
     }
 
-    /* HEADER CONTAINER */
     .header-container {
       display: flex;
       align-items: center;
@@ -45,7 +44,6 @@
       letter-spacing: 1px;
     }
 
-    /* UI Controls */
     .btn {
       background: linear-gradient(135deg, #1e3a8a 0%, #1e1b4b 100%);
       color: #f1c40f;
@@ -85,7 +83,6 @@
     .screen { display: none; width: 100%; max-width: 950px; text-align: center; }
     .screen.active { display: flex; flex-direction: column; align-items: center; }
 
-    /* Mode Selection Screen */
     .mode-select-box {
       background: rgba(15, 23, 42, 0.95);
       border: 2px solid #d4af37;
@@ -99,26 +96,9 @@
       max-width: 420px;
     }
 
-    /* Host Controls & Layout */
-    .host-panel-container {
-      position: relative;
-      width: 100%;
-    }
-
-    .host-header-actions {
-      display: flex;
-      justify-content: flex-end;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-
-    .host-panel {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-      width: 100%;
-    }
+    .host-panel-container { position: relative; width: 100%; }
+    .host-header-actions { display: flex; justify-content: flex-end; width: 100%; margin-bottom: 10px; }
+    .host-panel { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; }
     .panel-box {
       background: rgba(15, 23, 42, 0.95);
       border: 1px solid #d4af37;
@@ -142,29 +122,12 @@
       box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     }
 
-    #qrcode {
-      display: flex;
-      justify-content: center;
-      margin: 15px 0;
-    }
+    #qrcode { display: flex; justify-content: center; margin: 15px 0; }
     #qrcode img { border: 4px solid #d4af37; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
-    /* WINNER LOG & PLAYER STYLES */
-    .winner-log-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-      font-size: 0.78rem;
-    }
-    .winner-log-table th, .winner-log-table td {
-      border: 1px solid #334155;
-      padding: 5px 4px;
-      text-align: center;
-    }
-    .winner-log-table th {
-      background-color: #1e293b;
-      color: #f1c40f;
-    }
+    .winner-log-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.78rem; }
+    .winner-log-table th, .winner-log-table td { border: 1px solid #334155; padding: 5px 4px; text-align: center; }
+    .winner-log-table th { background-color: #1e293b; color: #f1c40f; }
     .winner-log-table tr:nth-child(even) { background-color: #0f172a; }
 
     .manual-winner-box {
@@ -176,314 +139,77 @@
       gap: 5px;
     }
 
-    /* 1-75 HOST MASTER GRID STYLES */
-    .master-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-top: 15px;
-    }
-    
-    .grid-row {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    
+    .master-grid { display: flex; flex-direction: column; gap: 6px; margin-top: 15px; }
+    .grid-row { display: flex; align-items: center; gap: 4px; }
     .row-letter {
-      width: 30px;
-      height: 30px;
-      font-weight: bold;
-      color: #f1c40f;
-      background-color: #7f1d1d;
-      border: 1px solid #d4af37;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 5px;
-      font-size: 0.9rem;
+      width: 30px; height: 30px; font-weight: bold; color: #f1c40f; background-color: #7f1d1d;
+      border: 1px solid #d4af37; display: flex; align-items: center; justify-content: center;
+      border-radius: 5px; font-size: 0.9rem;
     }
-    
     .num-cell-host {
-      flex: 1;
-      height: 30px;
-      background: #1e293b;
-      border: 1px solid #334155;
-      border-radius: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      color: #64748b;
-      font-weight: bold;
-      transition: all 0.2s;
+      flex: 1; height: 30px; background: #1e293b; border: 1px solid #334155; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: #64748b;
+      font-weight: bold; transition: all 0.2s;
     }
-    
-    .num-cell-host.drawn {
-      background: #15803d;
-      color: #fff;
-      border-color: #4ade80;
-    }
-    
-    .num-cell-host.latest {
-      background: #b91c1c !important;
-      color: #f1c40f !important;
-      border-color: #f1c40f !important;
-      animation: pulse-host 0.8s infinite alternate;
-    }
+    .num-cell-host.drawn { background: #15803d; color: #fff; border-color: #4ade80; }
+    .num-cell-host.latest { background: #b91c1c !important; color: #f1c40f !important; border-color: #f1c40f !important; animation: pulse-host 0.8s infinite alternate; }
 
     @keyframes pulse-host {
       from { transform: scale(1); }
       to { transform: scale(1.15); }
     }
 
-    /* Player Bingo Board Styles */
-    .bingo-board {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      margin-top: 10px;
-      width: 100%;
-      max-width: 350px;
-    }
-
+    .bingo-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 10px; width: 100%; max-width: 350px; }
     .cell {
-      aspect-ratio: 1;
-      background-color: #1e293b;
-      border: 2px solid #d4af37;
-      border-radius: 8px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #f8fafc;
-      cursor: pointer;
-      user-select: none;
-      transition: background 0.2s, transform 0.2s;
+      aspect-ratio: 1; background-color: #1e293b; border: 2px solid #d4af37; border-radius: 8px;
+      display: flex; justify-content: center; align-items: center; font-size: 1.1rem; font-weight: bold;
+      color: #f8fafc; cursor: pointer; user-select: none; transition: background 0.2s, transform 0.2s;
     }
-    .cell.header {
-      background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
-      color: #f1c40f;
-      border-color: #d4af37;
-      cursor: default;
-    }
-    .cell.selected {
-      background-color: #15803d;
-      color: #fff;
-      border-color: #4ade80;
-    }
-    .cell.free-space {
-      background-color: #b45309;
-      color: #f1c40f;
-      font-size: 0.8rem;
-    }
-    
-    .cell.winning-cell {
-      background-color: #b91c1c !important;
-      color: #f1c40f !important;
-      border-color: #f1c40f !important;
-      animation: pulse 0.8s infinite alternate;
-    }
+    .cell.header { background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%); color: #f1c40f; border-color: #d4af37; cursor: default; }
+    .cell.selected { background-color: #15803d; color: #fff; border-color: #4ade80; }
+    .cell.free-space { background-color: #b45309; color: #f1c40f; font-size: 0.8rem; }
+    .cell.winning-cell { background-color: #b91c1c !important; color: #f1c40f !important; border-color: #f1c40f !important; animation: pulse 0.8s infinite alternate; }
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      100% { transform: scale(1.08); }
-    }
+    @keyframes pulse { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
 
-    .status-alert {
-      color: #4ade80;
-      font-size: 1.3rem;
-      font-weight: bold;
-      min-height: 30px;
-      margin-top: 10px;
-    }
+    .status-alert { color: #4ade80; font-size: 1.3rem; font-weight: bold; min-height: 30px; margin-top: 10px; }
 
-    /* EXPLANATION / RULES MODAL STYLES */
-    .rules-modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.85);
-      z-index: 9999;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-    }
-    .rules-modal-overlay.active {
-      display: flex;
-    }
-    .rules-modal-content {
-      background: #0f172a;
-      border: 2px solid #d4af37;
-      color: #f8fafc;
-      border-radius: 12px;
-      max-width: 800px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 25px;
-      position: relative;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.8);
-      text-align: left;
-    }
-    .close-modal-btn {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      background: #b91c1c;
-      color: white;
-      border: none;
-      font-size: 1.1rem;
-      font-weight: bold;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .rules-modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.85); z-index: 9999; justify-content: center; align-items: center; padding: 15px; }
+    .rules-modal-overlay.active { display: flex; }
+    .rules-modal-content { background: #0f172a; border: 2px solid #d4af37; color: #f8fafc; border-radius: 12px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 25px; position: relative; box-shadow: 0 5px 25px rgba(0,0,0,0.8); text-align: left; }
+    .close-modal-btn { position: absolute; top: 15px; right: 15px; background: #b91c1c; color: white; border: none; font-size: 1.1rem; font-weight: bold; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .close-modal-btn:hover { background: #991b1b; }
 
-    .pattern-grid-demo {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      margin-top: 15px;
-    }
-    .pattern-card {
-      background: #1e293b;
-      border: 1px solid #d4af37;
-      border-radius: 8px;
-      padding: 10px;
-      width: 160px;
-      text-align: center;
-    }
-    .mini-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 2px;
-      margin-top: 8px;
-    }
-    .mini-cell {
-      aspect-ratio: 1;
-      background: #334155;
-      border-radius: 2px;
-    }
+    .pattern-grid-demo { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 15px; }
+    .pattern-card { background: #1e293b; border: 1px solid #d4af37; border-radius: 8px; padding: 10px; width: 160px; text-align: center; }
+    .mini-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; margin-top: 8px; }
+    .mini-cell { aspect-ratio: 1; background: #334155; border-radius: 2px; }
     .mini-cell.active { background: #c2410c; }
     .mini-cell.free { background: #b45309; }
 
-    /* PRINT SECTION & PAGE BREAK STYLES (HARRY POTTER CHRISTMAS THEME) */
     #print-section { display: none; }
 
     @media print {
       @page { margin: 8mm; }
       body * { visibility: hidden; }
       #print-section, #print-section * { visibility: visible; }
-      #print-section {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        background: white;
-      }
-      .printable-card {
-        border: 3px double #7f1d1d;
-        padding: 12px;
-        page-break-inside: avoid;
-        break-inside: avoid;
-        text-align: center;
-        background: #fffdfa;
-        color: #1e1b4b;
-        border-radius: 8px;
-        position: relative;
-      }
-      
-      .hp-header-title {
-        font-family: 'Cinzel', 'Georgia', serif;
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #7f1d1d;
-        margin: 0 0 2px 0;
-        text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
-      }
-      .hp-sub-title {
-        font-size: 0.75rem;
-        color: #1e3a8a;
-        margin-bottom: 8px;
-        font-style: italic;
-      }
-
-      /* STUDENT INFO HEADER SLOTS */
-      .student-info-box {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        border: 1px solid #d4af37;
-        background: #fefce8;
-        padding: 6px 8px;
-        border-radius: 6px;
-        margin-bottom: 8px;
-        text-align: left;
-        font-size: 0.78rem;
-      }
-      .student-info-row {
-        display: flex;
-        justify-content: space-between;
-      }
-      .student-info-field {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        flex: 1;
-      }
-      .student-line {
-        border-bottom: 1px solid #1e1b4b;
-        flex: 1;
-        display: inline-block;
-        height: 12px;
-      }
-
-      .printable-board {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 3px;
-      }
-      .printable-cell {
-        border: 1px solid #d4af37;
-        aspect-ratio: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        font-size: 0.85rem;
-        color: #0f172a;
-        background: #fff;
-      }
-      .printable-cell.header { 
-        background: #7f1d1d !important; 
-        color: #f1c40f !important; 
-        font-size: 0.9rem;
-      }
-      .printable-cell.free {
-        background: #fef08a !important;
-        font-size: 0.7rem;
-        color: #854d0e;
-      }
+      #print-section { display: grid !important; grid-template-columns: repeat(2, 1fr); gap: 15px; position: absolute; left: 0; top: 0; width: 100%; background: white; }
+      .printable-card { border: 3px double #7f1d1d; padding: 12px; page-break-inside: avoid; break-inside: avoid; text-align: center; background: #fffdfa; color: #1e1b4b; border-radius: 8px; position: relative; }
+      .hp-header-title { font-family: 'Cinzel', 'Georgia', serif; font-size: 1.1rem; font-weight: bold; color: #7f1d1d; margin: 0 0 2px 0; text-shadow: 1px 1px 0px rgba(0,0,0,0.1); }
+      .hp-sub-title { font-size: 0.75rem; color: #1e3a8a; margin-bottom: 8px; font-style: italic; }
+      .student-info-box { display: flex; flex-direction: column; gap: 4px; border: 1px solid #d4af37; background: #fefce8; padding: 6px 8px; border-radius: 6px; margin-bottom: 8px; text-align: left; font-size: 0.78rem; }
+      .student-info-row { display: flex; justify-content: space-between; }
+      .student-info-field { display: flex; align-items: center; gap: 4px; flex: 1; }
+      .student-line { border-bottom: 1px solid #1e1b4b; flex: 1; display: inline-block; height: 12px; }
+      .printable-board { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+      .printable-cell { border: 1px solid #d4af37; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; color: #0f172a; background: #fff; }
+      .printable-cell.header { background: #7f1d1d !important; color: #f1c40f !important; font-size: 0.9rem; }
+      .printable-cell.free { background: #fef08a !important; font-size: 0.7rem; color: #854d0e; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header Container -->
   <div class="header-container">
     <h1 id="app-title">⚡ AC M2 Magical Bingo - Christmas 2026 🎄</h1>
   </div>
@@ -497,7 +223,6 @@
       <button class="btn btn-info" onclick="openRulesModal()">📖 Rules & Guide</button>
       <small style="color:#94a3b8;">Mobile wizards can scan the Host's QR code directly using their phone camera.</small>
 
-      <!-- FALLBACK: MANUAL ROOM CONNECT IF QR FAILS -->
       <div style="margin-top: 10px; border-top: 1px dashed #d4af37; padding-top: 12px; text-align: left;">
         <small style="color: #cbd5e1; font-weight: bold; display: block; margin-bottom: 5px;">QR Scanner Not Working?</small>
         <div style="display: flex; gap: 5px;">
@@ -527,7 +252,6 @@
       <button id="print-btn" class="btn btn-success" onclick="generateAndPrintCards()">Generate & Print</button>
       <button class="btn" onclick="showScreen('screen-select')">Back</button>
 
-      <!-- Async Progress Status Bar -->
       <div id="print-progress" style="margin-top: 15px; font-weight: bold; color: #fb923c;"></div>
     </div>
   </div>
@@ -535,14 +259,11 @@
   <!-- 3. HOST SCREEN -->
   <div id="screen-host" class="screen">
     <div class="host-panel-container">
-      
-      <!-- TOP RIGHT ACTION BAR FOR HOST MODE -->
       <div class="host-header-actions">
         <button class="btn btn-info" onclick="openRulesModal()" style="margin: 0;">📖 Rules & Guide</button>
       </div>
 
       <div class="host-panel">
-        <!-- QR Panel & Round Info -->
         <div class="panel-box" style="max-width: 320px;">
           <h3 style="color: #f1c40f;">Room & Controls</h3>
           <div style="font-size: 1.1rem; margin-bottom: 5px;"><strong>Round:</strong> <span id="current-round-num" style="color: #fb923c; font-weight: bold;">1</span></div>
@@ -554,7 +275,6 @@
             <button class="btn btn-info" onclick="openPlayersModal()" style="padding: 2px 6px; font-size: 0.75rem; margin-left: 5px;">View List</button>
           </div>
 
-          <!-- WINNER LIMIT SETTING -->
           <div style="margin: 10px 0; text-align: left; background: #1e293b; border: 1px solid #d4af37; padding: 8px; border-radius: 6px;">
             <label for="max-winners-select" style="font-size: 0.85rem; font-weight: bold; color: #f1c40f;">Set Max Winners for Round:</label>
             <select id="max-winners-select" style="width: 100%; margin: 4px 0 0 0;" onchange="updateMaxWinnersLimit()">
@@ -563,7 +283,6 @@
           
           <button class="btn btn-purple" onclick="startNewRound()" style="width:100%;">Start Next Round</button>
 
-          <!-- Round Export & Save Controls -->
           <div style="margin-top: 10px; border-top: 1px dashed #d4af37; padding-top: 10px;">
             <button class="btn btn-success" onclick="exportRoundData()" style="width:100%; font-size: 0.85rem; margin: 2px 0;">📥 Export Round Report (.JSON)</button>
             <button class="btn btn-orange" onclick="saveGameSession()" style="width:100%; font-size: 0.85rem; margin: 2px 0;">💾 Save Full Game State</button>
@@ -571,7 +290,6 @@
             <input type="file" id="load-game-file" accept=".json" style="display:none;" onchange="loadGameSession(event)">
           </div>
 
-          <!-- Winners Tracker Box -->
           <h4 style="margin: 15px 0 5px 0; color: #f1c40f;">🏆 Winners Log (<span id="winner-count-label">0</span>/<span id="winner-limit-label">1</span>)</h4>
           <div style="max-height: 160px; overflow-y: auto;">
             <table class="winner-log-table">
@@ -589,7 +307,6 @@
             </table>
           </div>
 
-          <!-- Manual Winner Entry -->
           <div class="manual-winner-box">
             <input type="text" id="manual-alias-input" placeholder="Enter Paper Winner Alias...">
             <button class="btn btn-success" onclick="addManualWinner()" style="padding: 6px; font-size: 0.85rem; margin: 0;">Add Winner Record</button>
@@ -601,7 +318,6 @@
           </div>
         </div>
 
-        <!-- Caller Console & Master Grid -->
         <div class="panel-box" style="flex: 2;">
           <h3 style="color: #f1c40f;">Caller Board & Master Grid</h3>
           
@@ -626,7 +342,6 @@
 
           <div class="status-alert" id="host-announcement"></div>
 
-          <!-- 1-75 Master Grid Container -->
           <div class="master-grid" id="master-grid"></div>
         </div>
       </div>
@@ -652,7 +367,7 @@
     </div>
   </div>
 
-  <!-- 5. RULES & EXPLANATION MODAL -->
+  <!-- 5. RULES MODAL -->
   <div id="rules-modal" class="rules-modal-overlay">
     <div class="rules-modal-content">
       <button class="close-modal-btn" onclick="closeRulesModal()">✖</button>
@@ -728,9 +443,8 @@
   <div id="print-section"></div>
 
   <script>
-    const GAME_VERSION = "v1.4";
+    const GAME_VERSION = "v1.5";
 
-    // App State Variables
     let peer = null;
     let connections = [];
     let playerRoster = [];
@@ -904,29 +618,46 @@
     }
 
     // ==========================================
-    // HOST MODE & PEER MANAGER
+    // HIGH-STABILITY WEBRTC CONFIG (SCHOOL / MOBILE NETWORKS)
     // ==========================================
-    function startHost() {
-      showScreen('screen-host');
-      renderMasterGrid();
-      initializeHostPeer();
-    }
-
     function createPeerInstance(id = null) {
       const config = {
         debug: 1,
         config: {
           iceServers: [
+            // Standard STUN Clusters
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
-            { urls: 'stun:openrelay.metered.ca:80' },
-            { urls: 'turn:openrelay.metered.ca:80', username: 'openrelay', credential: 'openrelay' },
-            { urls: 'turn:openrelay.metered.ca:443', username: 'openrelay', credential: 'openrelay' },
-            { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelay', credential: 'openrelay' }
-          ]
+            { urls: 'stun:stun2.l.google.com:19302' },
+            { urls: 'stun:stun3.l.google.com:19302' },
+            { urls: 'stun:stun4.l.google.com:19302' },
+            // TURN Relays with Correct Credentials & Port 443 TCP Fallback
+            {
+              urls: 'turn:openrelay.metered.ca:80',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            {
+              urls: 'turn:openrelay.metered.ca:443',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            },
+            {
+              urls: 'turn:openrelay.metered.ca:443?transport=tcp',
+              username: 'openrelayproject',
+              credential: 'openrelayproject'
+            }
+          ],
+          iceCandidatePoolSize: 10
         }
       };
       return id ? new Peer(id, config) : new Peer(config);
+    }
+
+    function startHost() {
+      showScreen('screen-host');
+      renderMasterGrid();
+      initializeHostPeer();
     }
 
     function initializeHostPeer(customId = null) {
@@ -999,7 +730,7 @@
         });
       });
 
-      peer.on('error', (err) => { console.error("PeerJS Error:", err); });
+      peer.on('error', (err) => { console.error("Host PeerJS Error:", err); });
     }
 
     function updatePlayerCountDisplay() {
@@ -1146,21 +877,24 @@
     }
 
     // ==========================================
-    // PLAYER MODE LOGIC
+    // HIGH-RESILIENCE MOBILE PLAYER LOGIC
     // ==========================================
     function startMobilePlayer(roomId) {
-      const inputAlias = prompt("Enter your Player Alias / Name:", "Player 1");
-      if (inputAlias) playerAlias = inputAlias;
+      if (!playerAlias || playerAlias === "Guest") {
+        const inputAlias = prompt("Enter your Player Alias / Name:", "Player 1");
+        if (inputAlias) playerAlias = inputAlias;
+      }
 
       showScreen('screen-player');
       document.getElementById('player-mode-title').textContent = "Player Mode";
       document.getElementById('player-name-tag').textContent = `Alias: ${playerAlias}`;
       document.getElementById('player-status').textContent = `Connecting to Host (${roomId})...`;
 
+      if (peer) { peer.destroy(); }
       peer = createPeerInstance();
       
       peer.on('open', () => {
-        const conn = peer.connect(roomId);
+        const conn = peer.connect(roomId, { reliable: true });
 
         conn.on('open', () => {
           document.getElementById('player-status').textContent = "🟢 Connected to Host";
@@ -1183,22 +917,25 @@
         });
 
         conn.on('close', () => {
-          document.getElementById('player-status').textContent = "🟡 Disconnected. Reconnecting...";
-          setTimeout(() => { startMobilePlayer(roomId); }, 3000);
+          document.getElementById('player-status').textContent = "🟡 Reconnecting...";
+          setTimeout(() => { startMobilePlayer(roomId); }, 2500);
         });
 
         conn.on('error', (err) => {
-          document.getElementById('player-status').textContent = "🔴 Network Error";
-          alert("Could not connect to host. Make sure host room is online.");
+          document.getElementById('player-status').textContent = "🟡 Connection busy. Retrying...";
+          setTimeout(() => { startMobilePlayer(roomId); }, 2500);
         });
       });
 
       peer.on('error', (err) => {
-        console.error("Player Peer Error:", err);
-        document.getElementById('player-status').textContent = "🔴 Network Error";
+        console.warn("Mobile peer connection handshake pending...", err);
+        document.getElementById('player-status').textContent = "🟡 Re-establishing signaling link...";
+        setTimeout(() => { startMobilePlayer(roomId); }, 3000);
       });
 
-      generateBingoBoard();
+      if (!document.getElementById('player-board').children.length) {
+        generateBingoBoard();
+      }
     }
 
     function generateBingoBoard() {
@@ -1306,7 +1043,7 @@
     }
 
     // ==========================================
-    // PRINTABLE CARDS GENERATOR (HARRY POTTER CHRISTMAS 2026 WITH STUDENT INFO)
+    // PRINTABLE CARDS GENERATOR
     // ==========================================
     function showPrintMenu() { showScreen('screen-print-menu'); }
 
@@ -1335,7 +1072,6 @@
             <div class="hp-header-title">🎄 Hogwarts Christmas 2026 🎄</div>
             <div class="hp-sub-title">AC M2 Magical Bingo Card #${i}</div>
             
-            <!-- STUDENT INFO FIELDS -->
             <div class="student-info-box">
               <div class="student-info-field">
                 <strong>Name:</strong> <span class="student-line"></span>
