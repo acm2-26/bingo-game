@@ -259,6 +259,15 @@ export function createFirebaseHost() {
         write(path('call'), null);
         api.update(path('meta'), { round, pattern, maxWinners }).catch(report);
         break;
+      case MSG.STARTED:
+        // An explicit signal so a phone knows the round is under way without
+        // having to receive a called number. Written separately and allowed to
+        // fail: if the published rules predate this field, Begin still works
+        // and players fall back to learning from the first call.
+        api.update(path('meta'), { started: msg.started !== false })
+          .catch(err => console.warn('[firebase host] started flag not written', err));
+        break;
+
       case MSG.SOMEONE_WON:
         write(path(`winners/${round}_${msg.rank}`), {
           alias: msg.alias, rank: msg.rank, round, clientId: msg.clientId || null, at: Date.now()
@@ -336,6 +345,9 @@ export function createFirebasePlayer() {
   let notFoundTimer = null;
   let lastPattern = null;
   let lastLimit = null;
+  let lastStarted = false;
+  let historyDetach = null;
+  let appliedKeys = new Set();   // sequence keys already turned into a CALL
   let lastSeenWrite = 0;
   let detachers = [];
   let lastError = null;      // diagnostics only
@@ -417,15 +429,21 @@ export function createFirebasePlayer() {
         await emitFullState(meta);
         return;
       }
-      if (meta.round !== myRound) {
-        myRound = meta.round;
+      if (Number(meta.round) !== myRound) {
+        myRound = Number(meta.round);
         lastSeq = -1;
+        appliedKeys = new Set();
+        watchHistory();
         lastPattern = meta.pattern;
         lastLimit = meta.maxWinners;
         bus.emit('message', {
           type: MSG.ROUND_RESET, round: meta.round, pattern: meta.pattern, maxWinners: meta.maxWinners
         });
         return;
+      }
+      if (!!meta.started !== lastStarted) {
+        lastStarted = !!meta.started;
+        bus.emit('message', { type: MSG.STARTED, round: meta.round, started: lastStarted });
       }
       if (meta.pattern !== lastPattern) {
         lastPattern = meta.pattern;
@@ -464,14 +482,24 @@ export function createFirebasePlayer() {
     myRound = Number(meta.round);
     lastPattern = meta.pattern;
     lastLimit = meta.maxWinners;
+    lastStarted = !!meta.started;
 
     // Realtime Database turns contiguous numeric keys into a JS array with a
     // leading null (our sequence starts at 1), so filter rather than trust the
     // shape. Without this, `null` lands in the called-numbers set and the very
     // first square a player taps is refused.
-    const drawn = history.exists()
-      ? Object.values(history.val()).filter(n => typeof n === 'number')
-      : [];
+    // Everything already in history is delivered inside this STATE, so mark
+    // those keys applied before subscribing — otherwise child_added would
+    // replay them all as fresh calls.
+    appliedKeys = new Set();
+    let drawn = [];
+    if (history.exists()) {
+      const raw = history.val();
+      Object.keys(raw).forEach(key => {
+        const n = Number(raw[key]);
+        if (Number.isFinite(n)) { drawn.push(n); appliedKeys.add(String(key)); }
+      });
+    }
     const callValue = call.exists() ? call.val() : null;
     lastSeq = callValue && callValue.round === meta.round ? callValue.seq : -1;
 
@@ -481,6 +509,10 @@ export function createFirebasePlayer() {
         if (w && w.round === meta.round) mine.push({ alias: w.alias, rank: w.rank, clientId: w.clientId });
       });
     }
+
+    watchHistory();
+
+    if (lastStarted) bus.emit('message', { type: MSG.STARTED, round: myRound, started: true });
 
     bus.emit('message', {
       type: MSG.STATE,
@@ -500,6 +532,35 @@ export function createFirebasePlayer() {
     await emitFullState(snap.val());
   }
 
+  /**
+   * Numbers are delivered twice, by two independent mechanisms.
+   *
+   *   history/{round}  child_added — the reliable one. Firebase replays every
+   *                    child the client has not seen, so a phone that was
+   *                    asleep, offline or mid-reconnect catches up by itself,
+   *                    in order, with no sequence bookkeeping.
+   *   call             onValue     — a single small node, used for the big
+   *                    "last call" display and as a fallback.
+   *
+   * Applied numbers are deduplicated by their sequence key, so whichever path
+   * arrives first wins and the other is a no-op. One path failing — a rule, a
+   * stale listener, a dropped update — no longer costs the player the game.
+   */
+  function watchHistory() {
+    if (myRound === null) return;
+    if (historyDetach) { try { historyDetach(); } catch { /* ignore */ } }
+    historyDetach = api.onChildAdded(path(`history/${myRound}`), snap => {
+      const key = String(snap.key);
+      const n = Number(snap.val());
+      if (!Number.isFinite(n)) return;
+      if (appliedKeys.has(key)) return;
+      appliedKeys.add(key);
+      const seq = Number(key);
+      if (Number.isFinite(seq) && seq > lastSeq) lastSeq = seq;
+      bus.emit('message', { type: MSG.CALL, number: n });
+    });
+  }
+
   function watchCall() {
     track(api.onValue(path('call'), snap => {
       const call = snap.val();
@@ -512,6 +573,10 @@ export function createFirebasePlayer() {
       if (myRound === null) { skipped = 'state not synced yet'; return; }
       if (round !== myRound) { skipped = `round ${round} ≠ mine ${myRound}`; return; }
       if (seq <= lastSeq) { skipped = `seq ${seq} ≤ ${lastSeq}`; return; }
+
+      const key = String(seq);
+      if (appliedKeys.has(key)) { skipped = 'already applied from history'; return; }
+      appliedKeys.add(key);
 
       skipped = null;
       lastSeq = seq;
@@ -593,6 +658,7 @@ export function createFirebasePlayer() {
     stop() {
       clearTimeout(pauseTimer);
       clearTimeout(notFoundTimer);
+      if (historyDetach) { try { historyDetach(); } catch { /* ignore */ } }
       detachers.forEach(off => { try { off(); } catch { /* ignore */ } });
       detachers = [];
       if (api && clientId) api.update(me(), { online: false }).catch(() => {});
@@ -602,7 +668,8 @@ export function createFirebasePlayer() {
     /** Live state for the on-screen ?debug=1 panel. */
     stats: () => ({
       pin, uid, connected, myRound, lastSeq,
-      call: lastCallSeen, skipped, error: lastError
+      call: lastCallSeen, skipped, error: lastError, started: lastStarted,
+      applied: appliedKeys.size
     })
   };
 }

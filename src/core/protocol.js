@@ -20,6 +20,7 @@ export const MSG = {
   PATTERN: 'PATTERN',                 // {pattern}
   LIMIT: 'LIMIT',                     // {maxWinners}
   ROUND_RESET: 'ROUND_RESET',         // {round, pattern, maxWinners}
+  STARTED: 'STARTED',                 // {round} — the host pressed Begin
   BINGO_ACCEPTED: 'BINGO_ACCEPTED',   // {rank}
   BINGO_REJECTED: 'BINGO_REJECTED',   // {reason}
   SOMEONE_WON: 'SOMEONE_WON',         // {alias, rank} — for the other players

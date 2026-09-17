@@ -39,6 +39,7 @@ const ACTIONS = {
 
   'host.start': host.startHost,
   'host.copyLink': host.copyJoinLink,
+  'host.begin': host.beginGame,
   'host.draw': host.hostDrawNumber,
   'host.undo': host.undoLastDraw,
   'host.newRound': host.startNewRound,
@@ -119,6 +120,7 @@ window.BingoDebug = {
   patternCells,
   playerData: player.onMessage,
   hostDrawNumber: host.hostDrawNumber,
+  beginGame: host.beginGame,
   broadcastPattern: host.broadcastPattern,
   updateMaxWinnersLimit: host.updateMaxWinnersLimit,
   updateCapacity: host.updateCapacity,

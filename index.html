@@ -181,7 +181,8 @@
         </div>
 
         <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap;">
-          <button id="draw-btn" class="btn btn-success" style="flex:2; min-width:180px; font-size:1.05rem;" data-action="host.draw">🎲 Draw Next Number</button>
+          <button id="begin-btn" class="btn btn-success begin" style="flex:2; min-width:180px; font-size:1.05rem;" data-action="host.begin">▶️ Begin Game</button>
+          <button id="draw-btn" class="btn btn-success" style="flex:2; min-width:180px; font-size:1.05rem;" data-action="host.draw" hidden>🎲 Draw Next Number</button>
           <button class="btn btn-ghost" style="flex:1; min-width:110px;" data-action="host.undo">↩ Undo</button>
           <button class="btn btn-orange" style="flex:1; min-width:150px;" data-action="host.fullscreenOpen">⛶ Full Screen</button>
         </div>
@@ -340,7 +341,8 @@
   <div class="master-grid" id="fs-grid"></div>
 
   <div class="fs-actions">
-    <button id="fs-draw-btn" class="btn btn-success fs-draw" data-action="host.draw">🎲 Draw Next Number <small>(Space)</small></button>
+    <button id="fs-begin-btn" class="btn btn-success fs-draw begin" data-action="host.begin">▶️ Begin Game <small>(Space)</small></button>
+    <button id="fs-draw-btn" class="btn btn-success fs-draw" data-action="host.draw" hidden>🎲 Draw Next Number <small>(Space)</small></button>
     <button class="btn btn-ghost" data-action="host.undo" style="padding:16px 22px;">↩ Undo</button>
   </div>
 </div>

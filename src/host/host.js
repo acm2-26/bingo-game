@@ -26,7 +26,7 @@ import { logActivity, renderActivity, announceJoin } from './activity.js';
 import { renderRoster, scheduleRoster, updateCapacity } from './roster.js';
 import {
   buildGrid, renderMasterGrid, paintMasterGrid,
-  setCallerNumber, setAnnouncement, buildMaxWinnersOptions
+  setCallerNumber, setAnnouncement, buildMaxWinnersOptions, updateCallerButtons
 } from './caller.js';
 import {
   syncFullCaller, dismissWinnerBanner,
@@ -252,6 +252,29 @@ function judgeClaim(peer, player, msg) {
 
 /* ----------------------------------------------------------------- calling */
 
+/**
+ * Start the round: publish the settings that were chosen while students were
+ * joining, push a fresh snapshot to every player, then call the first number.
+ *
+ * Deliberately more than "draw" — the pattern and winner limit a host picks in
+ * the lobby are only meaningful once they are on every phone, and this is the
+ * moment that is guaranteed to happen.
+ */
+export function beginGame() {
+  if (game.drawn.length) {
+    toast('This round has already started — use Draw Next Number');
+    return;
+  }
+  broadcast({ type: MSG.PATTERN, pattern: game.pattern });
+  broadcast({ type: MSG.LIMIT, maxWinners: game.maxWinners });
+  broadcast({ type: MSG.STARTED, round: game.round });
+  resyncAll();
+
+  logActivity('round', `Round ${game.round} started — ${patternName(game.pattern)}, ${game.maxWinners} winner${game.maxWinners > 1 ? 's' : ''}`);
+  setAnnouncement(`Round ${game.round} under way`, '#4ade80');
+  hostDrawNumber();
+}
+
 export function hostDrawNumber() {
   const n = drawNumber(game);
   if (n === null) {
@@ -297,6 +320,7 @@ export function startNewRound() {
   renderWinnerLog();
   renderRoster();
   broadcast({ type: MSG.ROUND_RESET, round, pattern: game.pattern, maxWinners: game.maxWinners });
+  broadcast({ type: MSG.STARTED, round, started: false });
   dismissWinnerBanner();
   logActivity('round', `Round ${round} started — new cards sent to all players`);
   toast(`Round ${round} started — new cards sent`);
@@ -313,13 +337,16 @@ function onKey(e) {
   if (['input', 'select', 'textarea'].includes(tag)) return;
   if (e.code === 'Space' || e.code === 'Enter') {
     e.preventDefault();
-    hostDrawNumber();
+    if (game.drawn.length === 0) beginGame(); else hostDrawNumber();
   }
 }
 
 /* --------------------------------------------------------- wiring for main */
 
-export const openFullCaller = () => openFs({ buildGrid, paintMasterGrid, setCallerNumber });
+export const openFullCaller = () => {
+  openFs({ buildGrid, paintMasterGrid, setCallerNumber });
+  updateCallerButtons();
+};
 
 export function restoreSavedGame(ev) {
   loadGameSession(ev, () => {

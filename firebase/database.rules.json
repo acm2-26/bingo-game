@@ -15,6 +15,7 @@
           "maxWinners": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 50" },
           "capacity":   { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 100" },
           "createdAt":  { ".validate": "newData.isNumber()" },
+          "started":    { ".validate": "newData.isBoolean()" },
           "$other":     { ".validate": false }
         },
 

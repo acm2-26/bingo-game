@@ -31,6 +31,7 @@ export function initDebugPanel() {
       line('pin', stats.pin)
       + line('conn', stats.connected ? 'yes' : 'NO', !stats.connected)
       + line('round', stats.myRound, stats.myRound === null || stats.myRound === undefined)
+      + line('started', stats.started ? 'yes' : 'no', !stats.started)
       + line('seq', stats.lastSeq)
       + line('node', call.n !== undefined ? `n=${call.n} seq=${call.seq} r=${call.round}` : 'none')
       + line('called', P.drawn.size)

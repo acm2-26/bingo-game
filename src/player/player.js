@@ -154,6 +154,14 @@ export function onMessage(msg) {
       evaluateCard();
       break;
 
+    case MSG.STARTED:
+      P.started = msg.started !== false;
+      if (P.started) {
+        hideLobby();
+        if (!P.drawn.size) toast('The game has started — first number coming up');
+      }
+      break;
+
     case MSG.CALL:
       P.drawn.add(msg.number);
       hideLobby();
@@ -176,6 +184,7 @@ export function onMessage(msg) {
       applyPattern(msg.pattern);
       P.drawn = new Set();
       P.claimed = false;
+      P.started = false;
       updateCallUI(null, false);
       buildCard();
       setClaimIdle();

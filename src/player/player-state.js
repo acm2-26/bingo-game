@@ -14,6 +14,7 @@ export const P = {
   /** Cells highlighted by the last evaluation, so only those need clearing. */
   lastHits: [],
 
+  started: false,      // the host has begun this round
   cardRevealed: false, // lobby has stepped aside; do not re-cover the card
   ready: false,        // card completes the pattern
   claimed: false,      // this round's win already accepted

@@ -64,13 +64,7 @@ export function toggleCell(cell, r, c) {
     if (!P.drawn.has(n)) {
       replay(cell, 'shake');
       buzz();
-      if (!P.drawn.size) {
-        toast(P.transport?.isOpen()
-          ? 'No numbers have been called yet'
-          : 'Not connected to the host yet — wait for the green dot', true);
-      } else {
-        toast(`${callString(n)} has not been called`, true);
-      }
+      toast(refusalReason(n), true);
       return;
     }
     P.marks[r][c] = true;
@@ -80,6 +74,18 @@ export function toggleCell(cell, r, c) {
     cell.classList.remove('selected');
   }
   evaluateCard();
+}
+
+/**
+ * Why a tap was refused, in the words that are actually true at that moment.
+ * Getting this wrong is worse than useless: a student told "no numbers have
+ * been called" while the host is calling numbers will assume the app is broken.
+ */
+function refusalReason(n) {
+  if (!P.transport?.isOpen()) return 'Not connected yet — wait for the green dot';
+  if (!P.started) return "The host hasn't started the round yet";
+  if (!P.drawn.size) return 'No numbers called yet — the first one is coming';
+  return `${callString(n)} has not been called yet`;
 }
 
 /** Mark a called number automatically, for players who turn Auto-mark on. */

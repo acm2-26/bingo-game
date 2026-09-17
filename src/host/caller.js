@@ -50,7 +50,7 @@ export function paintMasterGrid() {
   const html = recent.map(n => `<span>${callString(n)}</span>`).join('')
     || '<span style="opacity:.4">no previous calls</span>';
   $('host-recent').innerHTML = html;
-  updateDrawButton();
+  updateCallerButtons();
   syncFullCaller(html);
 }
 
@@ -72,26 +72,27 @@ export function setAnnouncement(text, color) {
 }
 
 /**
- * The primary caller button doubles as the Begin button.
+ * Begin and Draw are separate actions with separate buttons.
  *
- * Students sit in a lobby that says "waiting for the host to begin", so the
- * host needs a control that says "begin" — drawing the first number is what
- * actually starts a round, and this makes that obvious rather than tribal
- * knowledge. It reverts to "Draw Next Number" once the round is under way, and
- * returns to "Begin Round N" after every round change.
+ * Begin publishes the round's settings and calls the first number — it is what
+ * the students' lobby is waiting for. Draw just calls the next one. Only the
+ * one that applies is shown, so the host never has to decide which to press.
  */
-export function updateDrawButton() {
+export function updateCallerButtons() {
   const notStarted = game.drawn.length === 0;
-  const label = notStarted
-    ? (game.round === 1 ? '▶️ Begin Game' : `▶️ Begin Round ${game.round}`)
-    : '🎲 Draw Next Number';
+  const beginLabel = game.round === 1 ? '▶️ Begin Game' : `▶️ Begin Round ${game.round}`;
 
-  [['draw-btn', ''], ['fs-draw-btn', ' <small>(Space)</small>']].forEach(([id, suffix]) => {
+  const set = (id, label, visible, suffix = '') => {
     const el = $(id);
     if (!el) return;
-    el.innerHTML = label + suffix;
-    el.classList.toggle('begin', notStarted);
-  });
+    if (label) el.innerHTML = label + suffix;
+    el.hidden = !visible;
+  };
+
+  set('begin-btn', beginLabel, notStarted);
+  set('draw-btn', null, !notStarted);
+  set('fs-begin-btn', beginLabel, notStarted, ' <small>(Space)</small>');
+  set('fs-draw-btn', null, !notStarted);
 }
 
 export function buildMaxWinnersOptions() {
