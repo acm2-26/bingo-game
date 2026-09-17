@@ -1,0 +1,14 @@
+{
+  "name": "ac-m2-magical-bingo",
+  "version": "3.0.0",
+  "description": "Hogwarts-themed multiplayer bingo for the AC M2 Christmas party — host on a laptop, students join by Game PIN on their phones.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "python3 -m http.server 8000"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

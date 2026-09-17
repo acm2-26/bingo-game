@@ -1,0 +1,80 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "games": {
+      "$pin": {
+
+        "meta": {
+          ".read": "auth != null",
+          ".write": "auth != null && (!data.exists() || data.child('hostUid').val() == auth.uid)",
+          "hostUid":    { ".validate": "newData.val() == auth.uid" },
+          "round":      { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 999" },
+          "pattern":    { ".validate": "newData.isString() && newData.val().length <= 16" },
+          "maxWinners": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 50" },
+          "capacity":   { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 100" },
+          "createdAt":  { ".validate": "newData.isNumber()" },
+          "$other":     { ".validate": false }
+        },
+
+        "call": {
+          ".read": "auth != null",
+          ".write": "auth != null && root.child('games').child($pin).child('meta/hostUid').val() == auth.uid",
+          "n":      { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 75" },
+          "seq":    { ".validate": "newData.isNumber()" },
+          "round":  { ".validate": "newData.isNumber() && newData.val() >= 1" },
+          "at":     { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
+        },
+
+        "history": {
+          ".read": "auth != null",
+          ".write": "auth != null && root.child('games').child($pin).child('meta/hostUid').val() == auth.uid",
+          "$round": {
+            "$seq": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 75" }
+          }
+        },
+
+        "winners": {
+          ".read": "auth != null",
+          ".write": "auth != null && root.child('games').child($pin).child('meta/hostUid').val() == auth.uid"
+        },
+
+        "players": {
+          ".read": "auth != null && root.child('games').child($pin).child('meta/hostUid').val() == auth.uid",
+          "$clientId": {
+            ".write": "auth != null && (newData.child('uid').val() == auth.uid || data.child('uid').val() == auth.uid || root.child('games').child($pin).child('meta/hostUid').val() == auth.uid)",
+            ".validate": "!newData.exists() || newData.hasChildren(['alias', 'uid'])",
+            "alias":    { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 24" },
+            "uid":      { ".validate": "newData.val() == auth.uid" },
+            "joinedAt": { ".validate": "newData.isNumber()" },
+            "online":   { ".validate": "newData.isBoolean()" },
+            "lastSeen": { ".validate": "newData.isNumber()" },
+            "$other":   { ".validate": false }
+          }
+        },
+
+        "claims": {
+          ".read": "auth != null && root.child('games').child($pin).child('meta/hostUid').val() == auth.uid",
+          "$clientId": {
+            ".write": "auth != null && (newData.child('uid').val() == auth.uid || data.child('uid').val() == auth.uid || root.child('games').child($pin).child('meta/hostUid').val() == auth.uid)",
+            ".validate": "!newData.exists() || newData.hasChildren(['card', 'marks', 'uid', 'at'])",
+            "uid":    { ".validate": "newData.val() == auth.uid" },
+            "card":   { ".validate": "newData.hasChildren()" },
+            "marks":  { ".validate": "newData.hasChildren()" },
+            "at":     { ".validate": "newData.isNumber()" },
+            "$other": { ".validate": false }
+          }
+        },
+
+        "results": {
+          ".read": "auth != null",
+          ".write": "auth != null && root.child('games').child($pin).child('meta/hostUid').val() == auth.uid"
+        },
+
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}
