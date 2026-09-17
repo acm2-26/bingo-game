@@ -333,6 +333,7 @@ export function createFirebasePlayer() {
 
   let myRound = null;
   let lastSeq = -1;
+  let notFoundTimer = null;
   let lastPattern = null;
   let lastLimit = null;
   let lastSeenWrite = 0;
@@ -371,6 +372,17 @@ export function createFirebasePlayer() {
     watchCall();
     watchResults();
     watchWinners();
+
+    // A player can write its own node into a game that does not exist, so a
+    // wrong PIN otherwise looks exactly like a game that has not started yet.
+    // If no state has arrived shortly after joining, say so — and keep the
+    // watchers running, so it recovers by itself if the host opens late.
+    notFoundTimer = setTimeout(() => {
+      if (myRound === null) {
+        bus.emit('status', 'warn', `Game ${pin} not found — check the PIN`);
+        bus.emit('notfound', pin);
+      }
+    }, 6000);
   }
 
   function watchConnection() {
@@ -430,6 +442,9 @@ export function createFirebasePlayer() {
       api.get(path('call'))
     ]);
 
+    clearTimeout(notFoundTimer);
+    // Clear any earlier "not found" message now that real state has arrived.
+    if (connected) bus.emit('status', 'on', 'Connected');
     myRound = meta.round;
     lastPattern = meta.pattern;
     lastLimit = meta.maxWinners;
@@ -553,6 +568,7 @@ export function createFirebasePlayer() {
     send,
     stop() {
       clearTimeout(pauseTimer);
+      clearTimeout(notFoundTimer);
       detachers.forEach(off => { try { off(); } catch { /* ignore */ } });
       detachers = [];
       if (api && clientId) api.update(me(), { online: false }).catch(() => {});

@@ -66,6 +66,7 @@ export async function confirmJoin() {
   P.transport.on('status', setStatus);
   P.transport.on('open', onConnected);
   P.transport.on('message', onMessage);
+  P.transport.on('notfound', pin => LOBBY.notFound(pin));
 
   setStatus('warn', 'Connecting…');
   // A small random delay so a class scanning the QR together does not hit the
@@ -83,7 +84,7 @@ function setStatus(state, text) {
 function onConnected() {
   P.waitingForSlot = false;
   P.lastPong = now();
-  if (!P.drawn.size) LOBBY.waiting();
+  if (!P.drawn.size && !P.cardRevealed) LOBBY.waiting(P.pin);
   P.transport.send({ type: MSG.HELLO, clientId: CLIENT_ID, alias: P.alias });
   startHeartbeat();
 }
@@ -92,11 +93,15 @@ function onConnected() {
 
 function startHeartbeat() {
   clearInterval(P.heartbeat);
+  // A transport that tracks presence itself (Firebase) answers no pings, so the
+  // silent-link watchdog below would fire every few seconds forever and resync
+  // for no reason. Only peer-to-peer needs watching.
+  const watchdog = !P.transport.managesPresence;
+
   P.heartbeat = setInterval(() => {
     if (P.transport.isOpen()) {
       P.transport.send({ type: MSG.PING, clientId: CLIENT_ID, alias: P.alias, t: now() });
-      // Silent link: the socket says open but nothing is coming back.
-      if (P.lastPong && now() - P.lastPong > PONG_TIMEOUT) {
+      if (watchdog && P.lastPong && now() - P.lastPong > PONG_TIMEOUT) {
         setStatus('warn', 'Weak signal — reconnecting…');
         P.transport.reconnect();
       }
@@ -138,7 +143,7 @@ export function onMessage(msg) {
       applyPattern(msg.pattern);
       P.drawn = new Set(msg.drawn || []);
       if (msg.maxWinners) game.maxWinners = msg.maxWinners;
-      if (P.drawn.size) hideLobby(); else LOBBY.waiting();
+      if (P.drawn.size || P.cardRevealed) hideLobby(); else LOBBY.waiting(P.pin);
       updateCallUI(msg.last, false);
 
       // Re-joining after a win: restore the trophy rather than offering a claim.
@@ -174,6 +179,7 @@ export function onMessage(msg) {
       updateCallUI(null, false);
       buildCard();
       setClaimIdle();
+      P.cardRevealed = false;
       LOBBY.newRound(game.round);
       toast(`Round ${game.round} — new card!`);
       break;

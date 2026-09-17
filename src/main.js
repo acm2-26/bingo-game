@@ -27,6 +27,12 @@ const ACTIONS = {
   'modal.open': (_e, el) => openModal(el.dataset.arg),
   'modal.close': (_e, el) => closeModal(el.dataset.arg),
   'ui.hideCelebration': hideCelebration,
+  'ui.showPinEntry': (_e, el) => {
+    const box = $('pin-entry');
+    box.hidden = false;
+    el.closest('.join-hint').hidden = true;
+    $('manual-room-input').focus();
+  },
   'app.reset': () => {
     if (confirm('Reset the whole app? All players will need to rejoin.')) location.reload();
   },

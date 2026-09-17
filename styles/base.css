@@ -119,3 +119,11 @@ input[type="text"].join-input{
 }
 #toast.show{ opacity:1; transform:translateX(-50%) translateY(-6px); }
 #toast.bad{ border-color:var(--red); color:#fecaca; }
+
+/* Players normally arrive by QR, so PIN entry is tucked away until asked for. */
+.join-hint{
+  text-align:center; color:var(--muted); font-size:.82rem;
+  margin:14px 0 0; padding-top:12px; border-top:1px solid var(--line);
+}
+#pin-entry{ margin-top:12px; }
+#pin-entry[hidden]{ display:none; }

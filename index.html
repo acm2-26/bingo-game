@@ -45,11 +45,16 @@
     <button class="btn btn-purple btn-block" data-action="nav" data-arg="screen-print-menu">🖨️ Print Advance Cards</button>
     <button class="btn btn-info btn-block" data-action="modal.open" data-arg="rules-modal">📖 Rules &amp; Guide</button>
 
-    <div class="section-title">📱 Join as Player</div>
-    <p class="hint">Scan the host's QR code, or type the 6-digit Magic PIN shown on the host's screen.</p>
-    <input type="text" id="manual-room-input" class="pin-input" placeholder="GAME PIN"
-           inputmode="numeric" maxlength="20" autocomplete="off" autocorrect="off" spellcheck="false">
-    <button class="btn btn-orange btn-block" data-action="player.joinByPin">Join Game</button>
+    <p class="join-hint">
+      Joining as a player?
+      <span class="join-link" data-action="ui.showPinEntry">Enter the PIN</span>
+    </p>
+
+    <div id="pin-entry" hidden>
+      <input type="text" id="manual-room-input" class="pin-input" placeholder="GAME PIN"
+             inputmode="numeric" maxlength="20" autocomplete="off" autocorrect="off" spellcheck="false">
+      <button class="btn btn-orange btn-block" data-action="player.joinByPin">Join Game</button>
+    </div>
 
     <p class="hint" style="text-align:center; margin:14px 0 0; padding-top:10px; border-top:1px solid var(--line);">
       Version <b class="ver" style="color:var(--gold)"></b> — if this number is older than the one you published,
