@@ -56,6 +56,7 @@
     cursor:pointer; margin:4px; transition:transform .12s, filter .12s;
     box-shadow:0 4px 10px rgba(0,0,0,.35); font-family:inherit; min-height:42px;
   }
+  .btn{ touch-action:manipulation; }
   .btn:hover{ filter:brightness(1.18); transform:translateY(-1px); }
   .btn:active{ transform:translateY(1px); }
   .btn-danger{ background:linear-gradient(135deg,#991b1b,#450a0a); border-color:#f87171; color:#fff; }
@@ -83,6 +84,20 @@
     box-shadow:0 10px 30px rgba(0,0,0,.55); width:100%;
   }
   .card-narrow{ max-width:430px; }
+
+  /* Join / name entry — deliberately large and uncluttered for students on phones */
+  .join-card{ text-align:center; padding:28px 22px 22px; }
+  .join-emoji{ font-size:3.2rem; line-height:1; }
+  .join-title{ color:var(--gold); font-size:clamp(1.55rem,6.5vw,2.2rem); margin:12px 0 20px; }
+  input[type="text"].join-input{
+    font-family:var(--num-font); font-size:clamp(1.35rem,5.8vw,1.8rem); font-weight:700;
+    text-align:center; padding:16px 14px; letter-spacing:.5px; margin:0;
+  }
+  .join-input::placeholder{ font-size:.75em; font-weight:400; color:#5b6b85; letter-spacing:0; }
+  .join-go{ width:100%; font-size:clamp(1.15rem,4.8vw,1.45rem); padding:17px 14px; margin:16px 0 0; }
+  .join-room{ font-size:.78rem; color:var(--muted); margin:16px 0 0; }
+  .join-room b{ color:var(--blue); }
+  .join-link{ color:var(--blue); text-decoration:underline; cursor:pointer; }
   .section-title{
     color:var(--gold); font-size:.78rem; letter-spacing:1.6px; text-transform:uppercase;
     margin:16px 0 8px; padding-bottom:5px; border-bottom:1px solid var(--line);
@@ -102,6 +117,36 @@
   .dot.on{ background:var(--green); box-shadow:0 0 8px var(--green); }
   .dot.warn{ background:var(--amber); box-shadow:0 0 8px var(--amber); }
   .dot.off{ background:#64748b; }
+
+  /* Kahoot-style Game PIN */
+  .pin-box{
+    text-align:center; background:linear-gradient(160deg,#1e1b4b,#0b1024);
+    border:2px solid var(--gold-dim); border-radius:12px; padding:10px 8px; margin-bottom:10px;
+  }
+  .pin-lab{ font-size:.62rem; letter-spacing:3px; color:var(--muted); text-transform:uppercase; }
+  .pin{
+    font-family:var(--num-font); font-variant-numeric:tabular-nums; font-weight:900;
+    font-size:clamp(1.9rem,5.5vw,2.7rem); color:var(--gold); letter-spacing:7px; line-height:1.15;
+    text-shadow:0 0 18px rgba(245,197,24,.35);
+  }
+  input[type="text"].pin-input{
+    font-family:var(--num-font); font-size:1.6rem; font-weight:900; text-align:center;
+    letter-spacing:6px; padding:14px 10px;
+  }
+  input[type="text"].pin-input::placeholder{ font-size:.55em; letter-spacing:1px; font-weight:400; color:#5b6b85; }
+
+  /* Lobby tiles */
+  .tiles{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:10px; }
+  .tiles:empty{ display:none; }
+  .tile{
+    background:linear-gradient(135deg,#1e3a8a,#312e81); border:1px solid var(--gold-dim); color:#fff;
+    border-radius:8px; padding:5px 11px; font-size:.82rem; font-weight:bold; max-width:100%;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .tile.pop{ animation:tileIn .45s cubic-bezier(.2,1.6,.4,1); }
+  .tile.off{ background:#16233c; color:#7d8ba3; border-color:var(--line); }
+  .tile.win{ background:linear-gradient(135deg,#f5c518,#b45309); color:#1b1206; }
+  @keyframes tileIn{ 0%{ transform:scale(.3) translateY(-10px); opacity:0 } 60%{ transform:scale(1.14) } 100%{ transform:scale(1); opacity:1 } }
 
   .room-id{
     font-family:var(--num-font); font-weight:800; color:var(--blue); font-size:.9rem;
@@ -162,6 +207,26 @@
   }
   .empty{ color:var(--muted); text-align:center; padding:14px; font-size:.85rem; }
 
+  /* Winner banner + activity feed */
+  .winner-banner{
+    width:100%; display:flex; align-items:center; gap:12px; justify-content:center; flex-wrap:wrap;
+    background:linear-gradient(135deg,#f5c518,#e07b00); color:#2a1600; font-weight:900;
+    border-radius:12px; padding:12px 18px; margin-bottom:12px; font-size:clamp(1rem,2vw,1.45rem);
+    box-shadow:0 0 30px rgba(245,197,24,.55); animation:claimPulse .9s infinite alternate;
+  }
+  .winner-banner .btn{ animation:none; }
+  .activity{ max-height:200px; overflow-y:auto; border:1px solid var(--line); border-radius:10px; background:#0d1526; }
+  .act-row{ display:flex; align-items:center; gap:8px; padding:7px 10px; border-bottom:1px solid #1d2a42; font-size:.82rem; }
+  .act-row:last-child{ border-bottom:none; }
+  .act-row .ic{ flex:none; width:18px; text-align:center; }
+  .act-row .tx{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .act-row .tm{ color:var(--muted); font-size:.7rem; font-family:var(--num-font); flex:none; }
+  .act-row.join .tx{ color:#86efac; }
+  .act-row.rejoin .tx{ color:#7dd3fc; }
+  .act-row.leave .tx{ color:#94a3b8; }
+  .act-row.win .tx{ color:var(--gold); font-weight:bold; }
+  .act-row.bad .tx{ color:#fca5a5; }
+
   .winner-log-table{ width:100%; border-collapse:collapse; font-size:.78rem; }
   .winner-log-table th,.winner-log-table td{ border:1px solid #27354d; padding:6px 5px; text-align:center; }
   .winner-log-table th{ background:#16233c; color:var(--gold); position:sticky; top:0; }
@@ -195,7 +260,26 @@
   .p-meta{ margin-left:auto; text-align:right; font-size:.72rem; color:var(--muted); line-height:1.5; }
   .p-meta b{ color:var(--txt); }
 
-  .board-wrap{ flex:1 1 auto; min-height:0; display:flex; align-items:center; justify-content:center; padding:6px 8px; }
+  .board-wrap{ flex:1 1 auto; min-height:0; display:flex; align-items:center; justify-content:center; padding:6px 8px; position:relative; }
+
+  /* Player lobby ("You're in!") */
+  .p-lobby{
+    position:absolute; inset:6px 8px; display:none; flex-direction:column; align-items:center;
+    justify-content:center; text-align:center; border-radius:14px;
+    background:radial-gradient(circle at 50% 35%, #1b2545 0%, #0a1020 60%, #060a14 100%);
+    border:2px solid var(--gold-dim); z-index:5; padding:18px;
+  }
+  .p-lobby.show{ display:flex; }
+  .pl-check{ font-size:clamp(2.6rem,14vw,4rem); line-height:1; animation:tileIn .5s cubic-bezier(.2,1.6,.4,1); }
+  .pl-title{ color:var(--gold); font-size:clamp(1.5rem,7vw,2.2rem); font-weight:bold; margin-top:8px; }
+  .pl-name{
+    font-family:var(--num-font); font-weight:900; color:#fff; font-size:clamp(1.2rem,5.5vw,1.8rem);
+    margin-top:12px; background:#1e3a8a; border:1px solid var(--gold-dim); border-radius:10px;
+    padding:8px 18px; max-width:100%; overflow:hidden; text-overflow:ellipsis;
+  }
+  .pl-wait{ color:var(--muted); font-size:.9rem; margin-top:18px; }
+  .pl-wait::after{ content:'…'; animation:dots 1.4s steps(4,end) infinite; }
+  @keyframes dots{ 0%{ opacity:.3 } 50%{ opacity:1 } 100%{ opacity:.3 } }
   .board-stack{ display:flex; flex-direction:column; gap:var(--cellgap); margin:auto; }
   .board-head{ display:grid; grid-template-columns:repeat(5,1fr); gap:var(--cellgap); }
   .board-head div{
@@ -209,8 +293,9 @@
     display:flex; justify-content:center; align-items:center;
     font-family:var(--num-font); font-variant-numeric:tabular-nums;
     font-size:calc(var(--cellsize,56px) * .46); font-weight:900; color:#0b1220;
-    cursor:pointer; user-select:none; transition:transform .12s, background .15s, color .15s;
+    cursor:pointer; user-select:none; transition:transform .07s ease-out, background .09s linear, color .09s linear;
     box-shadow:0 2px 0 rgba(0,0,0,.35);
+    touch-action:manipulation;   /* kills the browser's tap-delay heuristics */
   }
   .cell:active{ transform:scale(.94); }
   .cell.selected{
@@ -378,8 +463,9 @@
     <button class="btn btn-info btn-block" onclick="openModal('rules-modal')">📖 Rules &amp; Guide</button>
 
     <div class="section-title">📱 Join as Player</div>
-    <p class="hint">Scan the host's QR code with your phone camera, or type the Room ID below.</p>
-    <input type="text" id="manual-room-input" placeholder="Enter Host Room ID…" autocomplete="off">
+    <p class="hint">Scan the host's QR code, or type the 6-digit Magic PIN shown on the host's screen.</p>
+    <input type="text" id="manual-room-input" class="pin-input" placeholder="GAME PIN"
+           inputmode="numeric" maxlength="20" autocomplete="off" autocorrect="off" spellcheck="false">
     <button class="btn btn-orange btn-block" onclick="joinByManualId()">Join Game</button>
 
     <p class="hint" style="text-align:center; margin:14px 0 0; padding-top:10px; border-top:1px solid var(--line);">
@@ -391,14 +477,13 @@
 
 <!-- ============ 2. JOIN / NAME ============ -->
 <div id="screen-join" class="screen">
-  <div class="panel-box card-narrow">
-    <div class="section-title">🧙 Enter the Great Hall</div>
-    <p class="hint">Room: <b id="join-room-label" style="color:var(--blue)"></b></p>
-    <label class="lbl" for="alias-input">Your name</label>
-    <input type="text" id="alias-input" placeholder="e.g. Ploy M2/3" maxlength="24" autocomplete="off">
-    <p class="hint" style="margin-top:6px;">The host sees this name in the connected list and on the winners board — use your real nickname.</p>
-    <button class="btn btn-success btn-block" onclick="confirmJoin()">✨ Join Game</button>
-    <button class="btn btn-ghost btn-block" onclick="showScreen('screen-select')">Back</button>
+  <div class="panel-box card-narrow join-card">
+    <div class="join-emoji">🧙</div>
+    <h2 class="join-title">What's your wizard name?</h2>
+    <input type="text" id="alias-input" class="join-input" placeholder="Type here"
+           maxlength="24" autocomplete="off" autocapitalize="words" autocorrect="off" spellcheck="false">
+    <button class="btn btn-success join-go" onclick="confirmJoin()">✨ Enter the Great Hall</button>
+    <p class="join-room">Room <b id="join-room-label"></b> · <span class="join-link" onclick="showScreen('screen-select')">change</span></p>
   </div>
 </div>
 
@@ -432,13 +517,22 @@
     <button class="btn btn-danger btn-xs" onclick="resetApp()" style="padding:7px 12px;">↻ Reset App</button>
   </div>
 
+  <div id="host-winner-banner" class="winner-banner" style="display:none;">
+    <span id="hwb-text"></span>
+    <button class="btn btn-xs" style="background:#2a1600; color:var(--gold); border-color:#2a1600;" onclick="dismissWinnerBanner()">Dismiss</button>
+  </div>
+
   <div class="host-grid">
     <!-- LEFT COLUMN -->
     <div style="display:flex; flex-direction:column; gap:16px;">
       <div class="panel-box">
-        <div class="section-title">🔑 Room</div>
-        <div class="room-id" id="host-room-id">Connecting…</div>
+        <div class="section-title">🔑 Magic Join PIN</div>
+        <div class="pin-box">
+          <div class="pin-lab">Wizards join with this PIN</div>
+          <div class="pin" id="host-pin">••••••</div>
+        </div>
         <div id="qrcode"></div>
+        <div class="room-id" id="host-room-id" style="font-size:.7rem; opacity:.6;">Connecting…</div>
         <button class="btn btn-ghost btn-block btn-xs" style="padding:8px;" onclick="copyJoinLink()">🔗 Copy join link</button>
         <div style="margin-top:10px;">
           <label class="lbl" for="capacity-select">Room capacity</label>
@@ -452,7 +546,12 @@
             <option value="100">100 players</option>
           </select>
         </div>
-        <p class="hint" style="margin:8px 0 0;">Players scan this QR or enter the Room ID. The link stays valid all game — even if the host reconnects. Players beyond capacity are told to wait and join automatically as slots free up.</p>
+        <p class="hint" style="margin:8px 0 0;">Wizards scan this QR or type the PIN above. The PIN stays valid all game — even if the host reconnects. Players beyond capacity are told to wait and join automatically as slots free up.</p>
+      </div>
+
+      <div class="panel-box">
+        <div class="section-title">🔔 Live Activity</div>
+        <div class="activity" id="activity-list"><div class="empty">Waiting for players…</div></div>
       </div>
 
       <div class="panel-box">
@@ -460,7 +559,8 @@
           <span>👥 Connected Wizards</span>
           <span class="chip" style="text-transform:none; letter-spacing:0;"><b id="player-count" style="color:var(--green)">0</b>&nbsp;/&nbsp;<span id="capacity-label">50</span>&nbsp;online</span>
         </div>
-        <div class="roster" id="roster-list"><div class="empty">No players yet — share the QR code.</div></div>
+        <div class="tiles" id="lobby-tiles"></div>
+        <div class="roster" id="roster-list"><div class="empty">No players yet — share the Game PIN.</div></div>
       </div>
 
       <div class="panel-box">
@@ -502,6 +602,7 @@
         <div style="display:flex; gap:14px; flex-wrap:wrap; margin-top:10px;">
           <label class="switch"><input type="checkbox" id="voice-toggle" checked> 🔊 Voice caller</label>
           <label class="switch"><input type="checkbox" id="sfx-toggle" checked> 🎺 Win fanfare</label>
+          <label class="switch"><input type="checkbox" id="join-toggle" checked> 🔔 Join alerts</label>
         </div>
 
         <div id="host-announcement" style="min-height:28px; margin-top:10px; color:#4ade80; font-weight:bold; font-size:1.05rem;"></div>
@@ -563,6 +664,13 @@
       <div class="board-head"><div>B</div><div>I</div><div>N</div><div>G</div><div>O</div></div>
       <div class="bingo-board" id="player-board"></div>
     </div>
+
+    <div class="p-lobby" id="player-lobby">
+      <div class="pl-check" id="pl-icon">🪄</div>
+      <div class="pl-title" id="pl-title">You're in!</div>
+      <div class="pl-name" id="pl-name">Guest</div>
+      <div class="pl-wait" id="pl-wait">Waiting for the host to start</div>
+    </div>
   </div>
 
   <div class="p-bottom">
@@ -619,6 +727,7 @@
 <!-- ============ FULL-SCREEN CALLER (projector view) ============ -->
 <div id="caller-fs">
   <div class="fs-bar">
+    <span class="fs-chip">PIN <b id="fs-pin">••••••</b></span>
     <span class="fs-chip">Round <b id="fs-round">1</b></span>
     <span class="fs-chip" id="fs-pattern">Standard Line</span>
     <span class="fs-chip"><b id="fs-drawn">0</b>/75 called</span>
@@ -626,6 +735,11 @@
     <span class="fs-chip">🏆 <b id="fs-winners">0</b>/<b id="fs-winlimit">1</b></span>
     <span style="flex:1"></span>
     <button class="btn btn-danger" onclick="closeFullCaller()">✖ Exit full screen (Esc)</button>
+  </div>
+
+  <div id="fs-winner-banner" class="winner-banner" style="display:none; margin:0;">
+    <span id="fswb-text"></span>
+    <button class="btn btn-xs" style="background:#2a1600; color:var(--gold); border-color:#2a1600;" onclick="dismissWinnerBanner()">Dismiss</button>
   </div>
 
   <div class="fs-main">
@@ -649,7 +763,7 @@
 /* ===========================================================
    AC M2 Magical Bingo — v2.0
    =========================================================== */
-const GAME_VERSION = "v2.3";
+const GAME_VERSION = "v2.5";
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const letterFor = n => n <= 15 ? 'B' : n <= 30 ? 'I' : n <= 45 ? 'N' : n <= 60 ? 'G' : 'O';
@@ -756,6 +870,12 @@ function fanfare(){
   tone(1318.5, .48, .9, .22, 'sine');
 }
 function blip(){ tone(880, 0, .12, .16, 'sine'); }
+function chimeJoin(){
+  const t = $('join-toggle');
+  if(t && !t.checked) return;
+  tone(659.25, 0, .12, .14, 'sine');
+  tone(987.77, .1, .16, .12, 'sine');
+}
 function buzz(){ tone(150, 0, .22, .18, 'sawtooth'); }
 function speak(text){
   const v = $('voice-toggle');
@@ -849,9 +969,18 @@ function createPeer(id){
 /* ===========================================================
    HOST
    =========================================================== */
+/* A short numeric PIN is what students type. It is namespaced before being used
+   as a PeerJS id, because PeerJS ids are global across every app on the broker —
+   a bare "482106" would collide with strangers. */
+const ID_PREFIX = 'acm2bingo-';
+const makePin = () => String(Math.floor(100000 + Math.random() * 900000));
+const pinToRoomId = pin => (/^\d{4,8}$/.test(String(pin).trim()) ? ID_PREFIX + String(pin).trim() : String(pin).trim());
+
 const H = {
   peer: null,
   id: null,
+  pin: null,
+  pinTries: 0,
   players: new Map(),   // clientId -> { clientId, alias, joinTime, lastSeen, online, conn }
   sweep: null,
   capacity: 50,
@@ -861,6 +990,57 @@ const H = {
 };
 const HB_INTERVAL = 5000;   // player heartbeat period
 const OFFLINE_AFTER = 17000; // no heartbeat for this long => shown as offline
+
+/* ---------- host alerts: activity feed, join toasts, winner banner ---------- */
+const ACTIVITY = [];
+const ACT_ICON = { join:'✅', rejoin:'🔄', leave:'⚪', win:'🏆', bad:'⚠️', round:'▶️' };
+
+function logActivity(type, text){
+  ACTIVITY.unshift({ t: stamp(), type, text });
+  if(ACTIVITY.length > 60) ACTIVITY.pop();
+  renderActivity();
+}
+function renderActivity(){
+  const box = $('activity-list');
+  if(!box) return;
+  if(!ACTIVITY.length){ box.innerHTML = '<div class="empty">Waiting for players…</div>'; return; }
+  box.innerHTML = ACTIVITY.map(a => `
+    <div class="act-row ${a.type}">
+      <span class="ic">${ACT_ICON[a.type] || '•'}</span>
+      <span class="tx">${esc(a.text)}</span>
+      <span class="tm">${esc(shortTime(a.t))}</span>
+    </div>`).join('');
+}
+
+/* Joins are batched: 50 students scanning at once produce one toast, not fifty. */
+let joinBuffer = [], joinTimer = null;
+function announceJoin(alias){
+  logActivity('join', `${alias} joined the game`);
+  chimeJoin();
+  joinBuffer.push(alias);
+  clearTimeout(joinTimer);
+  joinTimer = setTimeout(() => {
+    const n = joinBuffer.length;
+    if(n === 1) toast(`👋 ${joinBuffer[0]} joined`);
+    else toast(`👋 ${n} players joined — ${joinBuffer.slice(0,3).join(', ')}${n > 3 ? '…' : ''}`);
+    joinBuffer = [];
+  }, 1000);
+}
+
+/* The winner banner is mirrored into the full-screen caller so the host never
+   misses a win, whichever view they are on. */
+function showWinnerBanner(alias, rank, pattern){
+  const text = `🏆 WINNER #${rank} — ${alias}  ·  ${pattern}  ·  Round ${currentRound}`;
+  [['host-winner-banner','hwb-text'], ['fs-winner-banner','fswb-text']].forEach(([box, label]) => {
+    const b = $(box), l = $(label);
+    if(!b || !l) return;
+    l.textContent = text;
+    b.style.display = 'flex';
+  });
+}
+function dismissWinnerBanner(){
+  ['host-winner-banner','fs-winner-banner'].forEach(id => { const el = $(id); if(el) el.style.display = 'none'; });
+}
 
 function onlineCount(){
   let n = 0;
@@ -913,11 +1093,15 @@ function hostInit(){
   hostNet('warn','Connecting to signaling…');
   try { if(H.peer && !H.peer.destroyed) H.peer.destroy(); } catch(e){}
 
-  H.peer = createPeer(H.id || undefined);
+  if(!H.pin) H.pin = makePin();
+  H.peer = createPeer(ID_PREFIX + H.pin);
 
   H.peer.on('open', id => {
     H.id = id;
+    H.pinTries = 0;
     hostNet('on','Room live — players can join');
+    $('host-pin').textContent = H.pin;
+    $('fs-pin').textContent = H.pin;
     $('host-room-id').textContent = id;
     renderQR(id);
   });
@@ -941,7 +1125,15 @@ function hostInit(){
   H.peer.on('error', err => {
     console.warn('[host]', err && err.type, err);
     const t = err && err.type;
-    if(t === 'unavailable-id'){ H.id = null; setTimeout(hostInit, 1200); }
+    if(t === 'unavailable-id'){
+      // That PIN is taken (another host, or our own id still releasing).
+      // Try a handful of fresh PINs before giving up.
+      H.pinTries++;
+      H.id = null;
+      if(H.pinTries <= 6) H.pin = makePin();
+      hostNet('warn','PIN in use — picking another…');
+      setTimeout(hostInit, 900);
+    }
     else if(['network','server-error','socket-error','socket-closed'].includes(t)){
       hostNet('warn','Network hiccup — retrying…');
       setTimeout(hostInit, 2500);
@@ -950,7 +1142,7 @@ function hostInit(){
 }
 
 function renderQR(id){
-  const url = joinUrl(id);
+  const url = joinUrl();
   const box = $('qrcode');
   box.innerHTML = '';
   if(typeof QRCode !== 'undefined'){
@@ -960,12 +1152,12 @@ function renderQR(id){
     box.innerHTML = '<div class="hint">QR unavailable — share the Room ID or link.</div>';
   }
 }
-function joinUrl(id){
-  return `${location.protocol}//${location.host}${location.pathname}?room=${encodeURIComponent(id)}`;
+function joinUrl(){
+  return `${location.protocol}//${location.host}${location.pathname}?pin=${encodeURIComponent(H.pin || '')}`;
 }
 function copyJoinLink(){
   if(!H.id) return toast('Room not ready yet', true);
-  const url = joinUrl(H.id);
+  const url = joinUrl();
   const done = ()=> toast('Join link copied ✔');
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(url).then(done).catch(()=> prompt('Copy this link:', url));
@@ -984,12 +1176,15 @@ function hostRegister(conn, clientId, alias){
     }
     p = { clientId, alias: alias || 'Wizard', joinTime: stamp(), lastSeen: now(), online: true, conn };
     H.players.set(clientId, p);
+    announceJoin(p.alias);
   } else {
     if(p.conn && p.conn !== conn){ try { p.conn.close(); } catch(e){} }
+    const wasOffline = !p.online;
     p.conn = conn;
     if(alias) p.alias = alias;
     p.online = true;
     p.lastSeen = now();
+    if(wasOffline) logActivity('rejoin', `${p.alias} reconnected`);
   }
   conn._clientId = clientId;
   queueState(conn);
@@ -1027,6 +1222,8 @@ function hostData(conn, data){
     if(!check.ok){
       safeSend(conn, { type:'BINGO_REJECTED', reason: check.reason });
       setAnnouncement(`⚠️ Invalid claim from ${(p && p.alias) || 'a player'} — ${check.reason}`, '#fca5a5');
+      logActivity('bad', `Invalid claim by ${(p && p.alias) || 'a player'} — ${check.reason}`);
+      toast(`⚠️ Invalid claim by ${(p && p.alias) || 'a player'}`, true);
       buzz();
       return;
     }
@@ -1052,12 +1249,15 @@ function hostData(conn, data){
 function hostMarkOffline(conn){
   const cid = conn._clientId;
   const p = cid ? H.players.get(cid) : null;
-  if(p && p.conn === conn){ p.online = false; scheduleRoster(); }
+  if(p && p.conn === conn){ p.online = false; logActivity('leave', `${p.alias} disconnected`); scheduleRoster(); }
 }
 function hostSweep(){
   let changed = false;
   H.players.forEach(p => {
-    if(p.online && now() - p.lastSeen > OFFLINE_AFTER){ p.online = false; changed = true; }
+    if(p.online && now() - p.lastSeen > OFFLINE_AFTER){
+      p.online = false; changed = true;
+      logActivity('leave', `${p.alias} lost connection`);
+    }
   });
   if(changed) scheduleRoster();
 }
@@ -1079,14 +1279,46 @@ function sendState(conn){
   });
 }
 
+/* Tiles are added and removed in place rather than re-rendered, so only a newly
+   arrived name plays the pop-in animation — the other 49 stay still. */
+const tileEls = new Map();
+function renderTiles(arr){
+  const box = $('lobby-tiles');
+  if(!box) return;
+  const seen = new Set();
+
+  arr.forEach(p => {
+    seen.add(p.clientId);
+    let el = tileEls.get(p.clientId);
+    if(!el){
+      el = document.createElement('span');
+      el.className = 'tile pop';
+      tileEls.set(p.clientId, el);
+      box.appendChild(el);
+      setTimeout(() => el.classList.remove('pop'), 500);
+    }
+    const win = winnersList.find(w => w.clientId === p.clientId && w.round === currentRound);
+    const label = (win ? '🏆 ' : '') + p.alias;
+    if(el.textContent !== label) el.textContent = label;
+    el.classList.toggle('off', !p.online);
+    el.classList.toggle('win', !!win);
+  });
+
+  tileEls.forEach((el, id) => {
+    if(!seen.has(id)){ el.remove(); tileEls.delete(id); }
+  });
+}
+
 function renderRoster(){
   const list = $('roster-list');
   const arr = Array.from(H.players.values()).sort((a,b) => (b.online - a.online) || a.joinTime.localeCompare(b.joinTime));
   $('player-count').textContent = arr.filter(p => p.online).length;
   syncFullCaller();
 
+  renderTiles(arr);
+
   if(!arr.length){
-    list.innerHTML = '<div class="empty">No players yet — share the QR code.</div>';
+    list.innerHTML = '<div class="empty">No players yet — share the Game PIN.</div>';
     return;
   }
   list.innerHTML = arr.map((p,i) => {
@@ -1256,6 +1488,8 @@ function startNewRound(){
   renderWinnerLog();
   renderRoster();
   broadcast({ type:'ROUND_RESET', round: currentRound, pattern: currentPattern, maxWinners: maxWinnersLimit });
+  dismissWinnerBanner();
+  logActivity('round', `Round ${currentRound} started — new cards sent to all players`);
   toast(`Round ${currentRound} started — new cards sent`);
 }
 
@@ -1264,6 +1498,9 @@ function recordWinner(w){
   winnersList.push(Object.assign({ timestamp: stamp() }, w));
   renderWinnerLog();
   renderRoster();
+  logActivity('win', `BINGO — ${w.alias} is winner #${w.rank} (${w.pattern})`);
+  showWinnerBanner(w.alias, w.rank, w.pattern);
+  toast(`🏆 BINGO! ${w.alias} — winner #${w.rank}`);
 }
 function addManualWinner(){
   const input = $('manual-alias-input');
@@ -1406,22 +1643,25 @@ const P = {
   drawn: new Set(),
   claimed: false, ready: false,
   wakeLock: null,
-  waitingForSlot: false
+  waitingForSlot: false,
+  lastHits: []
 };
 
 function joinByManualId(){
-  const id = $('manual-room-input').value.trim();
-  if(!id) return toast('Enter a Room ID first', true);
-  promptJoin(id);
+  const raw = $('manual-room-input').value.trim();
+  if(!raw) return toast('Enter the Game PIN first', true);
+  promptJoin(raw);
 }
-function promptJoin(roomId){
-  P.roomId = roomId;
-  $('join-room-label').textContent = roomId;
+function promptJoin(pinOrId){
+  const raw = String(pinOrId).trim();
+  P.pin = /^\d{4,8}$/.test(raw) ? raw : null;
+  P.roomId = pinToRoomId(raw);
+  $('join-room-label').textContent = P.pin || raw;
   let saved = '';
   try { saved = localStorage.getItem('bingo_alias') || ''; } catch(e){}
   $('alias-input').value = saved;
   showScreen('screen-join');
-  setTimeout(()=> $('alias-input').focus(), 120);
+  setTimeout(()=>{ const el = $('alias-input'); el.focus(); el.select(); }, 150);
 }
 async function confirmJoin(){
   const v = $('alias-input').value.trim();
@@ -1430,7 +1670,9 @@ async function confirmJoin(){
   try { localStorage.setItem('bingo_alias', P.alias); } catch(e){}
   ac(); // unlock audio on user gesture
   $('player-name-tag').textContent = P.alias;
+  $('pl-name').textContent = P.alias;
   showScreen('screen-player');
+  showLobby('🦉', 'Sending your owl…', 'Connecting to the Great Hall');
   if(!P.card.length) buildCard();
   fitBoard();
   requestWakeLock();
@@ -1445,6 +1687,16 @@ function setPlayerStatus(cls, text){
   $('player-dot').className = 'dot ' + cls;
   $('player-status').textContent = text;
 }
+
+/* Lobby overlay — shown until the first number of the round is called. */
+function showLobby(icon, title, wait){
+  $('pl-icon').textContent = icon;
+  $('pl-title').textContent = title;
+  $('pl-name').textContent = P.alias;
+  $('pl-wait').textContent = wait;
+  $('player-lobby').classList.add('show');
+}
+function hideLobby(){ $('player-lobby').classList.remove('show'); }
 
 function playerConnect(){
   if(typeof Peer === 'undefined'){ setPlayerStatus('off','Offline'); return; }
@@ -1495,6 +1747,7 @@ function openDataConn(){
     P.waitingForSlot = false;
     P.lastPong = now();
     setPlayerStatus('on','Connected');
+    if(!P.drawn.size) showLobby('🪄', "You're in!", 'Waiting for the host to begin');
     send({ type:'HELLO', clientId: CLIENT_ID, alias: P.alias });
     startHeartbeat();
   });
@@ -1560,6 +1813,8 @@ function playerData(data){
       currentRound = data.round;
       applyPattern(data.pattern);
       P.drawn = new Set(data.drawn || []);
+      if(P.drawn.size) hideLobby();
+      else showLobby('🪄', "You're in!", 'Waiting for the host to begin');
       updateCallUI(data.last, false);
       if(data.maxWinners) maxWinnersLimit = data.maxWinners;
       if(Array.isArray(data.winners) && data.winners.some(w => w.clientId === CLIENT_ID)){
@@ -1572,6 +1827,7 @@ function playerData(data){
 
     case 'CALL':
       P.drawn.add(data.number);
+      hideLobby();
       updateCallUI(data.number, true);
       if($('auto-mark').checked) autoMark(data.number);
       evaluateCard();
@@ -1594,6 +1850,7 @@ function playerData(data){
       updateCallUI(null, false);
       buildCard();
       setClaimIdle();
+      showLobby('🪄', `Round ${currentRound}`, 'A fresh card has been conjured — get ready');
       toast(`Round ${currentRound} — new card!`);
       break;
 
@@ -1665,7 +1922,12 @@ function buildCard(){
         const n = cols[c][r];
         P.card[r][c] = n;
         cell.textContent = n;
-        cell.addEventListener('click', () => toggleCell(cell, r, c));
+        // pointerdown fires on touch-down, before the ~100-300ms the browser
+        // waits to synthesise a click — this is what made taps feel laggy.
+        cell.addEventListener('pointerdown', ev => {
+          ev.preventDefault();
+          toggleCell(cell, r, c);
+        }, { passive: false });
       }
       board.appendChild(cell);
     }
@@ -1676,11 +1938,20 @@ function buildCard(){
 function toggleCell(cell, r, c){
   if(r===2 && c===2) return;
   const n = P.card[r][c];
+
   if(!P.marks[r][c]){
-    if(P.drawn.size && !P.drawn.has(n)){
+    // Self-validation: a number can only be marked once the host has called it.
+    // This is unconditional — an empty called-list means nothing may be marked.
+    if(!P.drawn.has(n)){
       cell.classList.remove('shake'); void cell.offsetWidth; cell.classList.add('shake');
       buzz();
-      toast(`${callString(n)} hasn't been called yet`, true);
+      if(!P.drawn.size){
+        toast(P.conn && P.conn.open
+          ? 'No numbers have been called yet'
+          : 'Not connected to the host yet — wait for the green dot', true);
+      } else {
+        toast(`${callString(n)} has not been called`, true);
+      }
       return;
     }
     P.marks[r][c] = true; cell.classList.add('selected');
@@ -1699,8 +1970,11 @@ function autoMark(n){
   }
 }
 function evaluateCard(){
-  document.querySelectorAll('#player-board .cell').forEach(c => c.classList.remove('winning-cell'));
+  // Only clear the cells that were highlighted last time instead of walking all
+  // 25 every tap — this is the other half of the tap-latency fix.
+  if(P.lastHits) P.lastHits.forEach(([r,c]) => { const el = $(`cell-${r}-${c}`); if(el) el.classList.remove('winning-cell'); });
   const hits = patternCells(P.marks, currentPattern);
+  P.lastHits = hits;
   P.ready = hits.length > 0;
   hits.forEach(([r,c]) => { const el = $(`cell-${r}-${c}`); if(el) el.classList.add('winning-cell'); });
   if(P.claimed) return;
@@ -1759,7 +2033,14 @@ function fitBoard(){
   stack.style.setProperty('--cellsize', Math.min(cw, ch) + 'px');
 }
 if(window.ResizeObserver){
-  const ro = new ResizeObserver(() => fitBoard());
+  // Throttled to one call per frame: an unthrottled observer can re-enter while
+  // fitBoard is writing styles and keep the main thread busy.
+  let fitPending = false;
+  const ro = new ResizeObserver(() => {
+    if(fitPending) return;
+    fitPending = true;
+    requestAnimationFrame(() => { fitPending = false; fitBoard(); });
+  });
   ro.observe(document.body);
 }
 
@@ -1826,8 +2107,9 @@ function generateAndPrintCards(){
 window.addEventListener('load', () => {
   document.querySelectorAll('.ver').forEach(el => el.textContent = GAME_VERSION);
   buildMaxWinnersOptions();
-  const room = new URLSearchParams(location.search).get('room');
-  if(room) promptJoin(room);
+  const q = new URLSearchParams(location.search);
+  const entry = q.get('pin') || q.get('room');   // ?room= kept for older QR codes
+  if(entry) promptJoin(entry);
 });
 /* diagnostics hook — handy if you ever need to inspect state from the browser console */
 window.BingoDebug = {
