@@ -443,7 +443,7 @@
   <div id="print-section"></div>
 
   <script>
-    const GAME_VERSION = "v1.5";
+    const GAME_VERSION = "v1.6";
 
     let peer = null;
     let connections = [];
@@ -625,13 +625,11 @@
         debug: 1,
         config: {
           iceServers: [
-            // Standard STUN Clusters
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
             { urls: 'stun:stun2.l.google.com:19302' },
             { urls: 'stun:stun3.l.google.com:19302' },
             { urls: 'stun:stun4.l.google.com:19302' },
-            // TURN Relays with Correct Credentials & Port 443 TCP Fallback
             {
               urls: 'turn:openrelay.metered.ca:80',
               username: 'openrelayproject',
@@ -666,7 +664,8 @@
       playerRoster = [];
       updatePlayerCountDisplay();
 
-      peer = createPeerInstance(customId);
+      const targetId = customId || basePeerId || null;
+      peer = createPeerInstance(targetId);
 
       peer.on('open', (id) => {
         if (!basePeerId) { basePeerId = id; }
@@ -679,23 +678,28 @@
       });
 
       peer.on('connection', (conn) => {
+        connections = connections.filter(c => c.peer !== conn.peer);
         connections.push(conn);
 
         conn.on('open', () => {
           conn.send({ type: 'PATTERN', pattern: currentPattern });
+          conn.send({ type: 'ACK_CONNECT' });
         });
 
         conn.on('data', (data) => {
-          if (data.type === 'REGISTER_ALIAS') {
-            const existing = playerRoster.find(p => p.id === conn.peer);
-            if (!existing) {
+          if (data.type === 'REGISTER_ALIAS' || data.type === 'HEARTBEAT') {
+            let player = playerRoster.find(p => p.id === conn.peer);
+            if (!player) {
               playerRoster.push({
                 id: conn.peer,
-                alias: data.alias,
+                alias: data.alias || 'Wizard',
                 joinTime: getFormattedTimestamp()
               });
+            } else {
+              player.alias = data.alias;
             }
             updatePlayerCountDisplay();
+            conn.send({ type: 'ACK_REGISTER' });
           } 
           else if (data.type === 'BINGO') {
             const currentRoundWinners = winnersList.filter(w => w.round === currentRound);
@@ -712,7 +716,6 @@
             speakCall(`Bingo declared by ${winnerAlias}! Winner number ${winnerRank}.`);
             
             recordWinner(currentRound, winnerRank, winnerAlias, getPatternName(currentPattern));
-
             conn.send({ type: 'BINGO_ACCEPTED', rank: winnerRank });
 
             if (currentRoundWinners.length + 1 >= maxWinnersLimit) {
@@ -820,8 +823,12 @@
       renderMasterGrid();
       renderWinnerLog();
 
-      const newRoundPeerId = `${basePeerId}-r${currentRound}`;
-      initializeHostPeer(newRoundPeerId);
+      connections.forEach(conn => {
+        if (conn.open) {
+          conn.send({ type: 'PATTERN', pattern: currentPattern });
+          conn.send({ type: 'ROUND_RESET', round: currentRound });
+        }
+      });
     }
 
     function addManualWinner() {
@@ -895,20 +902,32 @@
       
       peer.on('open', () => {
         const conn = peer.connect(roomId, { reliable: true });
+        let registerInterval = null;
 
         conn.on('open', () => {
           document.getElementById('player-status').textContent = "🟢 Connected to Host";
           window.hostConn = conn;
-          conn.send({ type: 'REGISTER_ALIAS', alias: playerAlias });
+
+          registerInterval = setInterval(() => {
+            if (conn.open) {
+              conn.send({ type: 'REGISTER_ALIAS', alias: playerAlias });
+            }
+          }, 1000);
         });
 
         conn.on('data', (data) => {
-          if (data.type === 'CALL') {
+          if (data.type === 'ACK_REGISTER') {
+            clearInterval(registerInterval);
+          } else if (data.type === 'CALL') {
             document.getElementById('player-last-call').textContent = data.number;
           } else if (data.type === 'PATTERN') {
             currentPattern = data.pattern;
             document.getElementById('current-pattern-display').textContent = getPatternName(currentPattern);
             checkBingo();
+          } else if (data.type === 'ROUND_RESET') {
+            document.getElementById('player-last-call').textContent = '--';
+            document.getElementById('player-win-msg').textContent = '';
+            generateBingoBoard();
           } else if (data.type === 'BINGO_ACCEPTED') {
             document.getElementById('player-win-msg').textContent = `🎉 BINGO! YOU WIN #${data.rank}! 🎉`;
           } else if (data.type === 'BINGO_REJECTED') {
@@ -917,11 +936,13 @@
         });
 
         conn.on('close', () => {
+          clearInterval(registerInterval);
           document.getElementById('player-status').textContent = "🟡 Reconnecting...";
           setTimeout(() => { startMobilePlayer(roomId); }, 2500);
         });
 
         conn.on('error', (err) => {
+          clearInterval(registerInterval);
           document.getElementById('player-status').textContent = "🟡 Connection busy. Retrying...";
           setTimeout(() => { startMobilePlayer(roomId); }, 2500);
         });
