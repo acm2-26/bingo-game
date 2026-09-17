@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ACS M2 Bingo Game</title>
+  <title>⚡ AC M2 Magical Bingo - Christmas 2026</title>
   <!-- PeerJS for WebRTC Mobile Sync -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
   <!-- QRCode.js for QR Generator -->
@@ -12,17 +12,17 @@
   <style>
     * {
       box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Georgia', 'Times New Roman', serif;
     }
 
     body {
-      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      background: radial-gradient(circle at top, #1e293b 0%, #0f172a 70%, #050b14 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 15px;
       margin: 0;
-      color: #333;
+      color: #f8fafc;
       min-height: 100vh;
     }
 
@@ -38,17 +38,18 @@
 
     h1#app-title {
       margin: 0;
-      color: #ffffff;
-      font-size: 2rem;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+      color: #f1c40f;
+      font-size: 2.2rem;
+      text-shadow: 0 0 10px rgba(241, 196, 15, 0.5), 2px 2px 4px rgba(0,0,0,0.8);
       text-align: center;
+      letter-spacing: 1px;
     }
 
     /* UI Controls */
     .btn {
-      background-color: #3498db;
-      color: white;
-      border: none;
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e1b4b 100%);
+      color: #f1c40f;
+      border: 1px solid #d4af37;
       padding: 10px 18px;
       font-size: 0.95rem;
       font-weight: bold;
@@ -56,25 +57,28 @@
       cursor: pointer;
       margin: 5px;
       transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
     }
-    .btn:hover { background-color: #2980b9; transform: translateY(-1px); }
-    .btn-danger { background-color: #e74c3c; }
-    .btn-danger:hover { background-color: #c0392b; }
-    .btn-success { background-color: #2ecc71; }
-    .btn-success:hover { background-color: #27ae60; }
-    .btn-purple { background-color: #9b59b6; }
-    .btn-purple:hover { background-color: #8e44ad; }
-    .btn-orange { background-color: #e67e22; }
-    .btn-orange:hover { background-color: #d35400; }
-    .btn-info { background-color: #16a085; }
-    .btn-info:hover { background-color: #117864; }
-    .btn:disabled { background-color: #bdc3c7; cursor: not-allowed; transform: none; }
+    .btn:hover { background: #2e1065; transform: translateY(-1px); color: #fff; }
+    .btn-danger { background: linear-gradient(135deg, #991b1b 0%, #450a0a 100%); border-color: #f87171; color: #fff; }
+    .btn-danger:hover { background: #7f1d1d; }
+    .btn-success { background: linear-gradient(135deg, #166534 0%, #052e16 100%); border-color: #4ade80; color: #fff; }
+    .btn-success:hover { background: #14532d; }
+    .btn-purple { background: linear-gradient(135deg, #6b21a8 0%, #3b0764 100%); border-color: #c084fc; color: #fff; }
+    .btn-purple:hover { background: #581c87; }
+    .btn-orange { background: linear-gradient(135deg, #c2410c 0%, #7c2d12 100%); border-color: #fb923c; color: #fff; }
+    .btn-orange:hover { background: #9a3412; }
+    .btn-info { background: linear-gradient(135deg, #0f766e 0%, #042f2e 100%); border-color: #2dd4bf; color: #fff; }
+    .btn-info:hover { background: #115e59; }
+    .btn:disabled { background: #475569; border-color: #64748b; color: #94a3b8; cursor: not-allowed; transform: none; }
 
     select, input[type="text"] {
       padding: 8px 12px;
       font-size: 0.95rem;
       border-radius: 6px;
-      border: 1px solid #ccc;
+      border: 1px solid #d4af37;
+      background: #0f172a;
+      color: #f8fafc;
       margin-bottom: 10px;
     }
 
@@ -83,10 +87,11 @@
 
     /* Mode Selection Screen */
     .mode-select-box {
-      background: rgba(255, 255, 255, 0.98);
+      background: rgba(15, 23, 42, 0.95);
+      border: 2px solid #d4af37;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(212, 175, 55, 0.15);
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -115,10 +120,11 @@
       width: 100%;
     }
     .panel-box {
-      background: rgba(255, 255, 255, 0.98);
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid #d4af37;
       padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
       flex: 1;
       min-width: 320px;
     }
@@ -126,13 +132,14 @@
     .current-number {
       font-size: 3.5rem;
       font-weight: bold;
-      color: #e74c3c;
+      color: #f1c40f;
       margin: 5px 0 15px 0;
-      background: #fdf2f2;
-      border: 3px solid #e74c3c;
+      background: #1e1b4b;
+      border: 3px solid #d4af37;
       display: inline-block;
       padding: 5px 25px;
       border-radius: 12px;
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     }
 
     #qrcode {
@@ -140,9 +147,9 @@
       justify-content: center;
       margin: 15px 0;
     }
-    #qrcode img { border: 4px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    #qrcode img { border: 4px solid #d4af37; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.5); }
 
-    /* WINNER LOG STYLES */
+    /* WINNER LOG & PLAYER STYLES */
     .winner-log-table {
       width: 100%;
       border-collapse: collapse;
@@ -150,20 +157,20 @@
       font-size: 0.78rem;
     }
     .winner-log-table th, .winner-log-table td {
-      border: 1px solid #ddd;
+      border: 1px solid #334155;
       padding: 5px 4px;
       text-align: center;
     }
     .winner-log-table th {
-      background-color: #34495e;
-      color: white;
+      background-color: #1e293b;
+      color: #f1c40f;
     }
-    .winner-log-table tr:nth-child(even) { background-color: #f9f9f9; }
+    .winner-log-table tr:nth-child(even) { background-color: #0f172a; }
 
     .manual-winner-box {
       margin-top: 10px;
       padding-top: 10px;
-      border-top: 1px dashed #ccc;
+      border-top: 1px dashed #d4af37;
       display: flex;
       flex-direction: column;
       gap: 5px;
@@ -187,8 +194,9 @@
       width: 30px;
       height: 30px;
       font-weight: bold;
-      color: white;
-      background-color: #2c3e50;
+      color: #f1c40f;
+      background-color: #7f1d1d;
+      border: 1px solid #d4af37;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -199,25 +207,28 @@
     .num-cell-host {
       flex: 1;
       height: 30px;
-      background: #ecf0f1;
+      background: #1e293b;
+      border: 1px solid #334155;
       border-radius: 5px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 0.85rem;
-      color: #bdc3c7;
+      color: #64748b;
       font-weight: bold;
       transition: all 0.2s;
     }
     
     .num-cell-host.drawn {
-      background: #2ecc71;
-      color: white;
+      background: #15803d;
+      color: #fff;
+      border-color: #4ade80;
     }
     
     .num-cell-host.latest {
-      background: #e74c3c !important;
-      color: white !important;
+      background: #b91c1c !important;
+      color: #f1c40f !important;
+      border-color: #f1c40f !important;
       animation: pulse-host 0.8s infinite alternate;
     }
 
@@ -238,38 +249,40 @@
 
     .cell {
       aspect-ratio: 1;
-      background-color: #edf2f7;
-      border: 2px solid #cbd5e0;
+      background-color: #1e293b;
+      border: 2px solid #d4af37;
       border-radius: 8px;
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 1.1rem;
       font-weight: bold;
+      color: #f8fafc;
       cursor: pointer;
       user-select: none;
       transition: background 0.2s, transform 0.2s;
     }
     .cell.header {
-      background-color: #3182ce;
-      color: white;
-      border-color: #2b6cb0;
+      background: linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%);
+      color: #f1c40f;
+      border-color: #d4af37;
       cursor: default;
     }
     .cell.selected {
-      background-color: #48bb78;
-      color: white;
-      border-color: #38a169;
+      background-color: #15803d;
+      color: #fff;
+      border-color: #4ade80;
     }
     .cell.free-space {
-      background-color: #ecc94b;
+      background-color: #b45309;
+      color: #f1c40f;
       font-size: 0.8rem;
     }
     
     .cell.winning-cell {
-      background-color: #e67e22 !important;
-      color: white !important;
-      border-color: #d35400 !important;
+      background-color: #b91c1c !important;
+      color: #f1c40f !important;
+      border-color: #f1c40f !important;
       animation: pulse 0.8s infinite alternate;
     }
 
@@ -279,7 +292,7 @@
     }
 
     .status-alert {
-      color: #27ae60;
+      color: #4ade80;
       font-size: 1.3rem;
       font-weight: bold;
       min-height: 30px;
@@ -294,7 +307,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: rgba(0, 0, 0, 0.85);
       z-index: 9999;
       justify-content: center;
       align-items: center;
@@ -304,7 +317,9 @@
       display: flex;
     }
     .rules-modal-content {
-      background: white;
+      background: #0f172a;
+      border: 2px solid #d4af37;
+      color: #f8fafc;
       border-radius: 12px;
       max-width: 800px;
       width: 100%;
@@ -312,14 +327,14 @@
       overflow-y: auto;
       padding: 25px;
       position: relative;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.5);
+      box-shadow: 0 5px 25px rgba(0,0,0,0.8);
       text-align: left;
     }
     .close-modal-btn {
       position: absolute;
       top: 15px;
       right: 15px;
-      background: #e74c3c;
+      background: #b91c1c;
       color: white;
       border: none;
       font-size: 1.1rem;
@@ -332,7 +347,7 @@
       align-items: center;
       justify-content: center;
     }
-    .close-modal-btn:hover { background: #c0392b; }
+    .close-modal-btn:hover { background: #991b1b; }
 
     .pattern-grid-demo {
       display: flex;
@@ -342,8 +357,8 @@
       margin-top: 15px;
     }
     .pattern-card {
-      background: #fdfdfd;
-      border: 1px solid #e2e8f0;
+      background: #1e293b;
+      border: 1px solid #d4af37;
       border-radius: 8px;
       padding: 10px;
       width: 160px;
@@ -357,19 +372,17 @@
     }
     .mini-cell {
       aspect-ratio: 1;
-      background: #e2e8f0;
+      background: #334155;
       border-radius: 2px;
     }
-    .mini-cell.active { background: #e67e22; }
-    .mini-cell.free { background: #ecc94b; }
+    .mini-cell.active { background: #c2410c; }
+    .mini-cell.free { background: #b45309; }
 
-    /* PRINT SECTION & PAGE BREAK STYLES */
+    /* PRINT SECTION & PAGE BREAK STYLES (HARRY POTTER CHRISTMAS THEME) */
     #print-section { display: none; }
 
     @media print {
-      @page {
-        margin: 10mm;
-      }
+      @page { margin: 8mm; }
       body * { visibility: hidden; }
       #print-section, #print-section * { visibility: visible; }
       #print-section {
@@ -380,31 +393,91 @@
         left: 0;
         top: 0;
         width: 100%;
+        background: white;
       }
       .printable-card {
-        border: 2px solid #000;
-        padding: 8px;
+        border: 3px double #7f1d1d;
+        padding: 12px;
         page-break-inside: avoid;
         break-inside: avoid;
         text-align: center;
-        background: white;
+        background: #fffdfa;
+        color: #1e1b4b;
+        border-radius: 8px;
+        position: relative;
       }
-      .printable-card h3 { margin: 2px 0 5px 0; font-size: 1rem; }
+      
+      .hp-header-title {
+        font-family: 'Cinzel', 'Georgia', serif;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #7f1d1d;
+        margin: 0 0 2px 0;
+        text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+      }
+      .hp-sub-title {
+        font-size: 0.75rem;
+        color: #1e3a8a;
+        margin-bottom: 8px;
+        font-style: italic;
+      }
+
+      /* STUDENT INFO HEADER SLOTS */
+      .student-info-box {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        border: 1px solid #d4af37;
+        background: #fefce8;
+        padding: 6px 8px;
+        border-radius: 6px;
+        margin-bottom: 8px;
+        text-align: left;
+        font-size: 0.78rem;
+      }
+      .student-info-row {
+        display: flex;
+        justify-content: space-between;
+      }
+      .student-info-field {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex: 1;
+      }
+      .student-line {
+        border-bottom: 1px solid #1e1b4b;
+        flex: 1;
+        display: inline-block;
+        height: 12px;
+      }
+
       .printable-board {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        gap: 2px;
+        gap: 3px;
       }
       .printable-cell {
-        border: 1px solid #000;
+        border: 1px solid #d4af37;
         aspect-ratio: 1;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: bold;
         font-size: 0.85rem;
+        color: #0f172a;
+        background: #fff;
       }
-      .printable-cell.header { background-color: #ddd; }
+      .printable-cell.header { 
+        background: #7f1d1d !important; 
+        color: #f1c40f !important; 
+        font-size: 0.9rem;
+      }
+      .printable-cell.free {
+        background: #fef08a !important;
+        font-size: 0.7rem;
+        color: #854d0e;
+      }
     }
   </style>
 </head>
@@ -412,22 +485,21 @@
 
   <!-- Header Container -->
   <div class="header-container">
-    <h1 id="app-title">🎱 ACS M2 Bingo Game</h1>
+    <h1 id="app-title">⚡ AC M2 Magical Bingo - Christmas 2026 🎄</h1>
   </div>
 
   <!-- 1. MODE SELECTION -->
   <div id="screen-select" class="screen active">
     <div class="mode-select-box">
-      <h2>Select Mode</h2>
+      <h2 style="color: #f1c40f; margin-top: 0;">🏰 Select Mode</h2>
       <button class="btn btn-success" onclick="startHost()">Host Game (Show QR)</button>
-      <button class="btn" onclick="startOffline()">Play Locally (Offline Player)</button>
       <button class="btn btn-purple" onclick="showPrintMenu()">Print Advance Cards</button>
       <button class="btn btn-info" onclick="openRulesModal()">📖 Rules & Guide</button>
-      <small style="color:#666;">Mobile players can scan the Host's QR code directly using their phone camera.</small>
+      <small style="color:#94a3b8;">Mobile wizards can scan the Host's QR code directly using their phone camera.</small>
 
       <!-- FALLBACK: MANUAL ROOM CONNECT IF QR FAILS -->
-      <div style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 12px; text-align: left;">
-        <small style="color: #444; font-weight: bold; display: block; margin-bottom: 5px;">QR Scanner Not Working?</small>
+      <div style="margin-top: 10px; border-top: 1px dashed #d4af37; padding-top: 12px; text-align: left;">
+        <small style="color: #cbd5e1; font-weight: bold; display: block; margin-bottom: 5px;">QR Scanner Not Working?</small>
         <div style="display: flex; gap: 5px;">
           <input type="text" id="manual-room-input" placeholder="Enter Host Room ID..." style="margin: 0; flex: 1;">
           <button class="btn btn-orange" onclick="joinByManualId()" style="margin: 0;">Join</button>
@@ -439,8 +511,8 @@
   <!-- 2. ADVANCE PRINT MENU -->
   <div id="screen-print-menu" class="screen">
     <div class="panel-box" style="max-width: 420px;">
-      <h2>Print Cards in Advance</h2>
-      <p>Generate clean, offline printable Bingo cards for players without mobile devices.</p>
+      <h2>📜 Print Cards in Advance</h2>
+      <p style="font-size: 0.88rem; color: #cbd5e1;">Generate Harry Potter Christmas 2026 cards with Student ID, Name, and Class header fields.</p>
       
       <label for="card-count"><strong>Number of Cards to Print:</strong></label><br>
       <select id="card-count">
@@ -455,8 +527,8 @@
       <button id="print-btn" class="btn btn-success" onclick="generateAndPrintCards()">Generate & Print</button>
       <button class="btn" onclick="showScreen('screen-select')">Back</button>
 
-      <!-- Async Progress Status Bar for Heavy Generates -->
-      <div id="print-progress" style="margin-top: 15px; font-weight: bold; color: #e67e22;"></div>
+      <!-- Async Progress Status Bar -->
+      <div id="print-progress" style="margin-top: 15px; font-weight: bold; color: #fb923c;"></div>
     </div>
   </div>
 
@@ -472,30 +544,42 @@
       <div class="host-panel">
         <!-- QR Panel & Round Info -->
         <div class="panel-box" style="max-width: 320px;">
-          <h3>Room & Controls</h3>
-          <div style="font-size: 1.1rem; margin-bottom: 5px;"><strong>Round:</strong> <span id="current-round-num" style="color: #e67e22; font-weight: bold;">1</span></div>
-          <div style="font-size: 0.85rem; color: #555; word-break: break-all;"><strong>Room ID:</strong> <span id="host-room-id" style="font-weight:bold; color:#2980b9;">Connecting...</span></div>
+          <h3 style="color: #f1c40f;">Room & Controls</h3>
+          <div style="font-size: 1.1rem; margin-bottom: 5px;"><strong>Round:</strong> <span id="current-round-num" style="color: #fb923c; font-weight: bold;">1</span></div>
+          <div style="font-size: 0.85rem; color: #94a3b8; word-break: break-all;"><strong>Room ID:</strong> <span id="host-room-id" style="font-weight:bold; color:#60a5fa;">Connecting...</span></div>
           <div id="qrcode"></div>
-          <div style="font-size:0.9rem; color:#666; margin-bottom: 10px;">Connected Players: <span id="player-count">0</span></div>
+          
+          <div style="font-size:0.9rem; color:#cbd5e1; margin-bottom: 5px;">
+            Connected Wizards: <strong><span id="player-count">0</span></strong> 
+            <button class="btn btn-info" onclick="openPlayersModal()" style="padding: 2px 6px; font-size: 0.75rem; margin-left: 5px;">View List</button>
+          </div>
+
+          <!-- WINNER LIMIT SETTING -->
+          <div style="margin: 10px 0; text-align: left; background: #1e293b; border: 1px solid #d4af37; padding: 8px; border-radius: 6px;">
+            <label for="max-winners-select" style="font-size: 0.85rem; font-weight: bold; color: #f1c40f;">Set Max Winners for Round:</label>
+            <select id="max-winners-select" style="width: 100%; margin: 4px 0 0 0;" onchange="updateMaxWinnersLimit()">
+            </select>
+          </div>
           
           <button class="btn btn-purple" onclick="startNewRound()" style="width:100%;">Start Next Round</button>
 
-          <!-- Save / Load Session Controls -->
-          <div style="margin-top: 10px; border-top: 1px dashed #ccc; padding-top: 10px;">
+          <!-- Round Export & Save Controls -->
+          <div style="margin-top: 10px; border-top: 1px dashed #d4af37; padding-top: 10px;">
+            <button class="btn btn-success" onclick="exportRoundData()" style="width:100%; font-size: 0.85rem; margin: 2px 0;">📥 Export Round Report (.JSON)</button>
             <button class="btn btn-orange" onclick="saveGameSession()" style="width:100%; font-size: 0.85rem; margin: 2px 0;">💾 Save Full Game State</button>
             <button class="btn" onclick="document.getElementById('load-game-file').click()" style="width:100%; font-size: 0.85rem; margin: 2px 0;">📁 Load Saved Game</button>
             <input type="file" id="load-game-file" accept=".json" style="display:none;" onchange="loadGameSession(event)">
           </div>
 
           <!-- Winners Tracker Box -->
-          <h4 style="margin: 15px 0 5px 0;">🏆 Winners Log</h4>
+          <h4 style="margin: 15px 0 5px 0; color: #f1c40f;">🏆 Winners Log (<span id="winner-count-label">0</span>/<span id="winner-limit-label">1</span>)</h4>
           <div style="max-height: 160px; overflow-y: auto;">
             <table class="winner-log-table">
               <thead>
                 <tr>
-                  <th>Time</th>
-                  <th>Rnd</th>
+                  <th>Rank</th>
                   <th>Alias</th>
+                  <th>Time</th>
                   <th>Pattern</th>
                 </tr>
               </thead>
@@ -505,7 +589,7 @@
             </table>
           </div>
 
-          <!-- Manual Winner Entry for Host -->
+          <!-- Manual Winner Entry -->
           <div class="manual-winner-box">
             <input type="text" id="manual-alias-input" placeholder="Enter Paper Winner Alias...">
             <button class="btn btn-success" onclick="addManualWinner()" style="padding: 6px; font-size: 0.85rem; margin: 0;">Add Winner Record</button>
@@ -519,7 +603,7 @@
 
         <!-- Caller Console & Master Grid -->
         <div class="panel-box" style="flex: 2;">
-          <h3>Caller Board & Master Grid</h3>
+          <h3 style="color: #f1c40f;">Caller Board & Master Grid</h3>
           
           <label><strong>Winning Pattern:</strong></label>
           <select id="winning-pattern-selector" onchange="broadcastPattern()">
@@ -549,41 +633,37 @@
     </div>
   </div>
 
-  <!-- 4. PLAYER SCREEN (Mobile & Offline) -->
+  <!-- 4. PLAYER SCREEN (Mobile Only) -->
   <div id="screen-player" class="screen">
     <div class="panel-box">
-      <h2 id="player-mode-title">Player Mode</h2>
-      <div style="font-size: 0.95rem; font-weight: bold; color: #2980b9;" id="player-name-tag">Alias: Guest</div>
-      <div style="font-size:0.9rem; color:#666;" id="player-status">Status: Standalone / Offline</div>
+      <h2 id="player-mode-title" style="color: #f1c40f;">Player Mode</h2>
+      <div style="font-size: 0.95rem; font-weight: bold; color: #60a5fa;" id="player-name-tag">Alias: Guest</div>
+      <div style="font-size:0.9rem; color:#94a3b8;" id="player-status">Status: Connecting...</div>
       
       <div style="margin: 10px 0;">
-        <strong>Pattern:</strong> <span id="current-pattern-display" style="color:#2980b9; font-weight:bold;">Standard Line</span><br>
+        <strong>Pattern:</strong> <span id="current-pattern-display" style="color:#f1c40f; font-weight:bold;">Standard Line</span><br>
         <strong>Last Called:</strong>
-        <span id="player-last-call" style="font-size: 1.5rem; color: #e74c3c; font-weight: bold;">--</span>
+        <span id="player-last-call" style="font-size: 1.5rem; color: #f87171; font-weight: bold;">--</span>
       </div>
 
       <div class="bingo-board" id="player-board"></div>
       
       <div class="status-alert" id="player-win-msg"></div>
-      
-      <button class="btn btn-danger" onclick="resetPlayerCard()" style="margin-top: 15px;">New Card</button>
-      <button class="btn" onclick="showScreen('screen-select')">Back to Home</button>
     </div>
   </div>
 
-  <!-- 5. RULES & EXPLANATION MODAL (OVERLAY) -->
+  <!-- 5. RULES & EXPLANATION MODAL -->
   <div id="rules-modal" class="rules-modal-overlay">
     <div class="rules-modal-content">
       <button class="close-modal-btn" onclick="closeRulesModal()">✖</button>
-      <h2 style="text-align: center; margin-top: 0;">📖 Game Explanation & Rules</h2>
+      <h2 style="text-align: center; margin-top: 0; color: #f1c40f;">📖 Hogwarts Christmas Game Explanation</h2>
       
       <h3>🎯 Winning Patterns Explained</h3>
-      <p>To declare <strong>BINGO</strong>, players must complete the current active pattern on their 5x5 grid:</p>
+      <p>To declare <strong>BINGO</strong>, complete the active pattern on your 5x5 grid:</p>
 
       <div class="pattern-grid-demo">
-        <!-- Pattern 1: LINE -->
         <div class="pattern-card">
-          <strong style="font-size:0.85rem;">Standard Line</strong>
+          <strong style="font-size:0.85rem; color: #f1c40f;">Standard Line</strong>
           <div class="mini-grid">
             <div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div>
             <div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell free"></div><div class="mini-cell active"></div><div class="mini-cell active"></div>
@@ -591,12 +671,9 @@
             <div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div>
             <div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div>
           </div>
-          <small style="font-size:0.75rem; color:#666;">Any 5 in a row (Row, Col, or Diagonal)</small>
         </div>
-
-        <!-- Pattern 2: CORNERS -->
         <div class="pattern-card">
-          <strong style="font-size:0.85rem;">Four Corners</strong>
+          <strong style="font-size:0.85rem; color: #f1c40f;">Four Corners</strong>
           <div class="mini-grid">
             <div class="mini-cell active"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell active"></div>
             <div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div>
@@ -604,12 +681,9 @@
             <div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div>
             <div class="mini-cell active"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell active"></div>
           </div>
-          <small style="font-size:0.75rem; color:#666;">Only the 4 outer corner spaces</small>
         </div>
-
-        <!-- Pattern 3: X -->
         <div class="pattern-card">
-          <strong style="font-size:0.85rem;">X-Shape</strong>
+          <strong style="font-size:0.85rem; color: #f1c40f;">X-Shape</strong>
           <div class="mini-grid">
             <div class="mini-cell active"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell active"></div>
             <div class="mini-cell"></div><div class="mini-cell active"></div><div class="mini-cell"></div><div class="mini-cell active"></div><div class="mini-cell"></div>
@@ -617,12 +691,9 @@
             <div class="mini-cell"></div><div class="mini-cell active"></div><div class="mini-cell"></div><div class="mini-cell active"></div><div class="mini-cell"></div>
             <div class="mini-cell active"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell active"></div>
           </div>
-          <small style="font-size:0.75rem; color:#666;">Both diagonals crossing the middle</small>
         </div>
-
-        <!-- Pattern 4: FULL -->
         <div class="pattern-card">
-          <strong style="font-size:0.85rem;">Full House</strong>
+          <strong style="font-size:0.85rem; color: #f1c40f;">Full House</strong>
           <div class="mini-grid">
             <div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div>
             <div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div>
@@ -630,18 +701,8 @@
             <div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div>
             <div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div><div class="mini-cell active"></div>
           </div>
-          <small style="font-size:0.75rem; color:#666;">Every single space covered</small>
         </div>
       </div>
-
-      <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
-
-      <h3>🕹️ How the Game Modes Work</h3>
-      <ul>
-        <li><strong>Host Mode:</strong> Generates a live QR code for mobile players to scan. Displays the master 1–75 caller grid, speech voice caller, winner logs, and session saving.</li>
-        <li><strong>Mobile Sync Play:</strong> Scanning the Host QR code links a mobile device directly without downloading any app. Winning triggers an instant alert to the Host.</li>
-        <li><strong>Print Advance Cards:</strong> Allows background batch generation of up to 1,000 unique printable paper cards for offline venues.</li>
-      </ul>
 
       <div style="text-align: center; margin-top: 20px;">
         <button class="btn btn-success" onclick="closeRulesModal()">Close Guide</button>
@@ -649,16 +710,30 @@
     </div>
   </div>
 
-  <!-- 6. PRINT CONTAINER -->
+  <!-- 6. CONNECTED PLAYERS LIST MODAL -->
+  <div id="players-modal" class="rules-modal-overlay">
+    <div class="rules-modal-content" style="max-width: 450px;">
+      <button class="close-modal-btn" onclick="closePlayersModal()">✖</button>
+      <h3 style="text-align: center; margin-top: 0; color: #f1c40f;">📱 Active Connected Wizards</h3>
+      <div id="players-list-container" style="max-height: 300px; overflow-y: auto; background: #1e293b; border: 1px solid #d4af37; border-radius: 8px; padding: 10px; margin-bottom: 15px;">
+        <div style="color: #94a3b8; text-align: center;">No active connections yet.</div>
+      </div>
+      <div style="text-align: center;">
+        <button class="btn btn-info" onclick="closePlayersModal()">Close Window</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. PRINT CONTAINER -->
   <div id="print-section"></div>
 
   <script>
-    // App Metadata
-    const GAME_VERSION = "v1.2";
+    const GAME_VERSION = "v1.4";
 
     // App State Variables
     let peer = null;
     let connections = [];
+    let playerRoster = [];
     let cardGrid = [];
     let currentPattern = 'LINE';
     let availableNumbers = Array.from({ length: 75 }, (_, i) => i + 1);
@@ -666,30 +741,31 @@
     let lastDrawnNum = null;
     let currentRound = 1;
     let winnersList = [];
+    let maxWinnersLimit = 1;
     let playerAlias = "Guest";
     let basePeerId = null;
 
-    // Helper: Format DateTime String (YYYY-MM-DD HH:mm:ss)
     function getFormattedTimestamp() {
       const d = new Date();
-      const year = d.getFullYear();
-      const month = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      const hours = String(d.getHours()).padStart(2, '0');
-      const minutes = String(d.getMinutes()).padStart(2, '0');
-      const seconds = String(d.getSeconds()).padStart(2, '0');
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}:${String(d.getSeconds()).padStart(2, '0')}`;
     }
 
-    // Helper: Short Time String for Table View (HH:mm:ss)
     function getShortTimeString(fullDateStr) {
       if (!fullDateStr) return '';
       const parts = fullDateStr.split(' ');
       return parts[1] ? parts[1] : fullDateStr;
     }
 
-    // Check for QR parameters on startup
     window.onload = () => {
+      const select = document.getElementById('max-winners-select');
+      for (let i = 1; i <= 50; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = `${i} Winner${i > 1 ? 's' : ''}`;
+        select.appendChild(opt);
+      }
+      select.value = 1;
+
       const urlParams = new URLSearchParams(window.location.search);
       const roomId = urlParams.get('room');
       if (roomId) {
@@ -702,28 +778,26 @@
       document.getElementById(id).classList.add('active');
     }
 
-    // Modal Rules Handlers
-    function openRulesModal() {
-      document.getElementById('rules-modal').classList.add('active');
+    function openRulesModal() { document.getElementById('rules-modal').classList.add('active'); }
+    function closeRulesModal() { document.getElementById('rules-modal').classList.remove('active'); }
+
+    function openPlayersModal() { 
+      renderPlayersModalList();
+      document.getElementById('players-modal').classList.add('active'); 
+    }
+    function closePlayersModal() { document.getElementById('players-modal').classList.remove('active'); }
+
+    function updateMaxWinnersLimit() {
+      maxWinnersLimit = parseInt(document.getElementById('max-winners-select').value, 10);
+      document.getElementById('winner-limit-label').textContent = maxWinnersLimit;
     }
 
-    function closeRulesModal() {
-      document.getElementById('rules-modal').classList.remove('active');
-    }
-
-    // Helper: Manual Room Join
     function joinByManualId() {
       const roomId = document.getElementById('manual-room-input').value.trim();
-      if (roomId) {
-        startMobilePlayer(roomId);
-      } else {
-        alert("Please enter a valid Host Room ID.");
-      }
+      if (roomId) { startMobilePlayer(roomId); } 
+      else { alert("Please enter a valid Host Room ID."); }
     }
 
-    // ==========================================
-    // SPEECH SYNTHESIS ENGINE
-    // ==========================================
     function speakCall(text) {
       if ('speechSynthesis' in window && document.getElementById('voice-toggle').checked) {
         window.speechSynthesis.cancel();
@@ -733,17 +807,23 @@
       }
     }
 
-    // ==========================================
-    // SAVE / LOAD GAME SESSION & WINNER LOG EXPORT
-    // ==========================================
-    function saveGameSession() {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      
-      const fileName = `acs_m2_bingo_fullgame_${year}-${month}-${day}_${GAME_VERSION}.json`;
+    function exportRoundData() {
+      const roundData = {
+        roundNumber: currentRound,
+        timestamp: getFormattedTimestamp(),
+        pattern: getPatternName(currentPattern),
+        maxWinnersSet: maxWinnersLimit,
+        totalConnectedPlayers: playerRoster.length,
+        playersList: playerRoster,
+        roundWinners: winnersList.filter(w => w.round === currentRound)
+      };
 
+      const filename = `bingo_round_${currentRound}_report_${new Date().toISOString().slice(0,10)}.json`;
+      downloadJSON(roundData, filename);
+    }
+
+    function saveGameSession() {
+      const fileName = `ac_m2_bingo_fullgame_${getFormattedTimestamp().replace(/[: ]/g, '_')}.json`;
       const gameState = {
         version: GAME_VERSION,
         saveDate: getFormattedTimestamp(),
@@ -752,23 +832,18 @@
         availableNumbers: availableNumbers,
         drawnNumbersHistory: drawnNumbersHistory,
         lastDrawnNum: lastDrawnNum,
-        winnersList: winnersList
+        winnersList: winnersList,
+        playerRoster: playerRoster
       };
-
       downloadJSON(gameState, fileName);
     }
 
     function saveWinnerLog() {
       if (winnersList.length === 0) {
-        alert("Winner log is empty! No winners to export.");
+        alert("Winner log is empty!");
         return;
       }
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = String(today.getMonth() + 1).padStart(2, '0');
-      const day = String(today.getDate()).padStart(2, '0');
-      
-      const fileName = `acs_m2_bingo_winner_log_${year}-${month}-${day}.json`;
+      const fileName = `ac_m2_bingo_winners_${getFormattedTimestamp().replace(/[: ]/g, '_')}.json`;
       downloadJSON(winnersList, fileName);
     }
 
@@ -790,15 +865,14 @@
       reader.onload = function(e) {
         try {
           const state = JSON.parse(e.target.result);
-          
           currentRound = state.currentRound || 1;
           currentPattern = state.currentPattern || 'LINE';
           availableNumbers = state.availableNumbers || Array.from({ length: 75 }, (_, i) => i + 1);
           drawnNumbersHistory = state.drawnNumbersHistory || [];
           lastDrawnNum = state.lastDrawnNum || null;
           winnersList = state.winnersList || [];
+          playerRoster = state.playerRoster || [];
 
-          // Restore UI State
           document.getElementById('current-round-num').textContent = currentRound;
           document.getElementById('winning-pattern-selector').value = currentPattern;
           
@@ -810,8 +884,6 @@
           }
 
           renderMasterGrid();
-
-          // Highlight saved drawn numbers
           drawnNumbersHistory.forEach(num => {
             const el = document.getElementById(`host-num-${num}`);
             if (el) el.classList.add('drawn');
@@ -832,7 +904,7 @@
     }
 
     // ==========================================
-    // 1. HOST MODE & MASTER GRID LOGIC
+    // HOST MODE & PEER MANAGER
     // ==========================================
     function startHost() {
       showScreen('screen-host');
@@ -846,7 +918,11 @@
         config: {
           iceServers: [
             { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun1.l.google.com:19302' }
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:openrelay.metered.ca:80' },
+            { urls: 'turn:openrelay.metered.ca:80', username: 'openrelay', credential: 'openrelay' },
+            { urls: 'turn:openrelay.metered.ca:443', username: 'openrelay', credential: 'openrelay' },
+            { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelay', credential: 'openrelay' }
           ]
         }
       };
@@ -854,23 +930,18 @@
     }
 
     function initializeHostPeer(customId = null) {
-      if (peer) {
-        peer.destroy();
-      }
+      if (peer) { peer.destroy(); }
       connections = [];
-      document.getElementById('player-count').textContent = '0';
+      playerRoster = [];
+      updatePlayerCountDisplay();
 
       peer = createPeerInstance(customId);
 
       peer.on('open', (id) => {
-        if (!basePeerId) {
-          basePeerId = id;
-        }
+        if (!basePeerId) { basePeerId = id; }
         document.getElementById('host-room-id').textContent = id;
         
-        // Full Page URL + Room Parameter
         const joinUrl = `${window.location.protocol}//${window.location.host}${window.location.pathname}?room=${encodeURIComponent(id)}`;
-        
         const qrContainer = document.getElementById("qrcode");
         qrContainer.innerHTML = ''; 
         new QRCode(qrContainer, { text: joinUrl, width: 140, height: 140 });
@@ -878,30 +949,76 @@
 
       peer.on('connection', (conn) => {
         connections.push(conn);
-        document.getElementById('player-count').textContent = connections.length;
 
         conn.on('open', () => {
           conn.send({ type: 'PATTERN', pattern: currentPattern });
         });
 
         conn.on('data', (data) => {
-          if (data.type === 'BINGO') {
+          if (data.type === 'REGISTER_ALIAS') {
+            const existing = playerRoster.find(p => p.id === conn.peer);
+            if (!existing) {
+              playerRoster.push({
+                id: conn.peer,
+                alias: data.alias,
+                joinTime: getFormattedTimestamp()
+              });
+            }
+            updatePlayerCountDisplay();
+          } 
+          else if (data.type === 'BINGO') {
+            const currentRoundWinners = winnersList.filter(w => w.round === currentRound);
+            
+            if (currentRoundWinners.length >= maxWinnersLimit) {
+              conn.send({ type: 'BINGO_REJECTED', message: 'Winner limit reached for this round!' });
+              return;
+            }
+
+            const winnerRank = currentRoundWinners.length + 1;
             const winnerAlias = data.playerAlias || `Player ${conn.peer.substring(0,4)}`;
-            document.getElementById('host-announcement').textContent = `🚨 BINGO! WINNER: ${winnerAlias}! 🚨`;
-            speakCall(`Bingo declared by ${winnerAlias}!`);
-            recordWinner(currentRound, winnerAlias, getPatternName(currentPattern));
+            
+            document.getElementById('host-announcement').textContent = `🚨 BINGO! WINNER #${winnerRank}: ${winnerAlias}! 🚨`;
+            speakCall(`Bingo declared by ${winnerAlias}! Winner number ${winnerRank}.`);
+            
+            recordWinner(currentRound, winnerRank, winnerAlias, getPatternName(currentPattern));
+
+            conn.send({ type: 'BINGO_ACCEPTED', rank: winnerRank });
+
+            if (currentRoundWinners.length + 1 >= maxWinnersLimit) {
+              setTimeout(() => {
+                document.getElementById('host-announcement').textContent = `🏁 MAX WINNERS REACHED FOR ROUND ${currentRound} (${maxWinnersLimit}/${maxWinnersLimit}) 🏁`;
+              }, 3000);
+            }
           }
         });
 
         conn.on('close', () => {
           connections = connections.filter(c => c !== conn);
-          document.getElementById('player-count').textContent = connections.length;
+          playerRoster = playerRoster.filter(p => p.id !== conn.peer);
+          updatePlayerCountDisplay();
         });
       });
 
-      peer.on('error', (err) => {
-        console.error("PeerJS Error:", err);
-      });
+      peer.on('error', (err) => { console.error("PeerJS Error:", err); });
+    }
+
+    function updatePlayerCountDisplay() {
+      document.getElementById('player-count').textContent = playerRoster.length;
+      renderPlayersModalList();
+    }
+
+    function renderPlayersModalList() {
+      const container = document.getElementById('players-list-container');
+      if (playerRoster.length === 0) {
+        container.innerHTML = '<div style="color: #94a3b8; text-align: center;">No active connections yet.</div>';
+        return;
+      }
+      container.innerHTML = playerRoster.map((p, index) => `
+        <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #334155; font-size: 0.85rem;">
+          <span><strong style="color:#f1c40f;">${index + 1}.</strong> ${p.alias}</span>
+          <span style="color: #94a3b8; font-size: 0.75rem;">${getShortTimeString(p.joinTime)}</span>
+        </div>
+      `).join('');
     }
 
     function renderMasterGrid() {
@@ -945,7 +1062,6 @@
       document.getElementById('host-current-num').textContent = callString;
       speakCall(`${letter}, ${num}`);
 
-      // Update Master Grid highlighting
       if (lastDrawnNum) {
         const prevEl = document.getElementById(`host-num-${lastDrawnNum}`);
         if (prevEl) prevEl.classList.remove('latest');
@@ -957,7 +1073,6 @@
       }
       lastDrawnNum = num;
 
-      // Broadcast call to connected mobile players
       connections.forEach(conn => {
         if (conn.open) conn.send({ type: 'CALL', number: callString });
       });
@@ -972,8 +1087,8 @@
       document.getElementById('host-current-num').textContent = '--';
       document.getElementById('host-announcement').textContent = '';
       renderMasterGrid();
+      renderWinnerLog();
 
-      // Generate new round ID & regenerate QR code dynamically
       const newRoundPeerId = `${basePeerId}-r${currentRound}`;
       initializeHostPeer(newRoundPeerId);
     }
@@ -982,28 +1097,35 @@
       const input = document.getElementById('manual-alias-input');
       const alias = input.value.trim();
       if (alias) {
-        recordWinner(currentRound, alias, getPatternName(currentPattern));
+        const currentRoundWinners = winnersList.filter(w => w.round === currentRound);
+        const rank = currentRoundWinners.length + 1;
+        recordWinner(currentRound, rank, alias, getPatternName(currentPattern));
         input.value = '';
       }
     }
 
-    function recordWinner(round, alias, pattern) {
+    function recordWinner(round, rank, alias, pattern) {
       const timestamp = getFormattedTimestamp();
-      winnersList.push({ timestamp, round, alias, pattern });
+      winnersList.push({ timestamp, round, rank, alias, pattern });
       renderWinnerLog();
     }
 
     function renderWinnerLog() {
       const tbody = document.getElementById('winner-log-body');
+      const roundWinners = winnersList.filter(w => w.round === currentRound);
+      
+      document.getElementById('winner-count-label').textContent = roundWinners.length;
+      document.getElementById('winner-limit-label').textContent = maxWinnersLimit;
+
       if (winnersList.length === 0) {
         tbody.innerHTML = '<tr><td colspan="4" style="color:#888;">No winners logged yet</td></tr>';
         return;
       }
       tbody.innerHTML = winnersList.map(w => `
         <tr>
-          <td title="${w.timestamp}">${getShortTimeString(w.timestamp)}</td>
-          <td><strong>R${w.round}</strong></td>
+          <td><strong>#${w.rank}</strong> (R${w.round})</td>
           <td>${w.alias}</td>
+          <td title="${w.timestamp}">${getShortTimeString(w.timestamp)}</td>
           <td>${w.pattern}</td>
         </tr>
       `).join('');
@@ -1024,14 +1146,14 @@
     }
 
     // ==========================================
-    // 2. PLAYER MODE LOGIC (Mobile & Offline)
+    // PLAYER MODE LOGIC
     // ==========================================
     function startMobilePlayer(roomId) {
       const inputAlias = prompt("Enter your Player Alias / Name:", "Player 1");
       if (inputAlias) playerAlias = inputAlias;
 
       showScreen('screen-player');
-      document.getElementById('player-mode-title').textContent = "Mobile Player";
+      document.getElementById('player-mode-title').textContent = "Player Mode";
       document.getElementById('player-name-tag').textContent = `Alias: ${playerAlias}`;
       document.getElementById('player-status').textContent = `Connecting to Host (${roomId})...`;
 
@@ -1043,6 +1165,7 @@
         conn.on('open', () => {
           document.getElementById('player-status').textContent = "🟢 Connected to Host";
           window.hostConn = conn;
+          conn.send({ type: 'REGISTER_ALIAS', alias: playerAlias });
         });
 
         conn.on('data', (data) => {
@@ -1052,11 +1175,20 @@
             currentPattern = data.pattern;
             document.getElementById('current-pattern-display').textContent = getPatternName(currentPattern);
             checkBingo();
+          } else if (data.type === 'BINGO_ACCEPTED') {
+            document.getElementById('player-win-msg').textContent = `🎉 BINGO! YOU WIN #${data.rank}! 🎉`;
+          } else if (data.type === 'BINGO_REJECTED') {
+            document.getElementById('player-win-msg').textContent = `⚠️ Winner limit reached for this round!`;
           }
         });
 
+        conn.on('close', () => {
+          document.getElementById('player-status').textContent = "🟡 Disconnected. Reconnecting...";
+          setTimeout(() => { startMobilePlayer(roomId); }, 3000);
+        });
+
         conn.on('error', (err) => {
-          document.getElementById('player-status').textContent = "🔴 Connection Failed";
+          document.getElementById('player-status').textContent = "🔴 Network Error";
           alert("Could not connect to host. Make sure host room is online.");
         });
       });
@@ -1069,23 +1201,11 @@
       generateBingoBoard();
     }
 
-    function startOffline() {
-      const inputAlias = prompt("Enter your Player Alias / Name:", "Player 1");
-      if (inputAlias) playerAlias = inputAlias;
-
-      showScreen('screen-player');
-      document.getElementById('player-mode-title').textContent = "Offline Player";
-      document.getElementById('player-name-tag').textContent = `Alias: ${playerAlias}`;
-      document.getElementById('player-status').textContent = "⚪ Local Standalone Mode";
-      generateBingoBoard();
-    }
-
     function generateBingoBoard() {
       const board = document.getElementById('player-board');
       board.innerHTML = '';
       cardGrid = Array(5).fill(null).map(() => Array(5).fill(false));
 
-      // Header Row
       ['B', 'I', 'N', 'G', 'O'].forEach(letter => {
         const cell = document.createElement('div');
         cell.classList.add('cell', 'header');
@@ -1093,14 +1213,12 @@
         board.appendChild(cell);
       });
 
-      // Random Column Numbers
       const ranges = [
         { min: 1, max: 15 }, { min: 16, max: 30 }, { min: 31, max: 45 },
         { min: 46, max: 60 }, { min: 61, max: 75 }
       ];
       const cols = ranges.map(r => getRandomNumbers(r.min, r.max, 5));
 
-      // Build Interactive Grid
       for (let r = 0; r < 5; r++) {
         for (let c = 0; c < 5; c++) {
           const cell = document.createElement('div');
@@ -1128,30 +1246,19 @@
       checkBingo();
     }
 
-    // ==========================================
-    // 3. WINNING PATTERN ENGINE
-    // ==========================================
     function checkBingo() {
       document.querySelectorAll('.cell').forEach(c => c.classList.remove('winning-cell'));
       let winningIndices = [];
 
       if (currentPattern === 'LINE') {
         for (let r = 0; r < 5; r++) {
-          if (cardGrid[r].every(val => val)) {
-            for (let c = 0; c < 5; c++) winningIndices.push([r, c]);
-          }
+          if (cardGrid[r].every(val => val)) { for (let c = 0; c < 5; c++) winningIndices.push([r, c]); }
         }
         for (let c = 0; c < 5; c++) {
-          if ([0,1,2,3,4].every(r => cardGrid[r][c])) {
-            for (let r = 0; r < 5; r++) winningIndices.push([r, c]);
-          }
+          if ([0,1,2,3,4].every(r => cardGrid[r][c])) { for (let r = 0; r < 5; r++) winningIndices.push([r, c]); }
         }
-        if ([0,1,2,3,4].every(i => cardGrid[i][i])) {
-          for (let i = 0; i < 5; i++) winningIndices.push([i, i]);
-        }
-        if ([0,1,2,3,4].every(i => cardGrid[i][4 - i])) {
-          for (let i = 0; i < 5; i++) winningIndices.push([i, 4 - i]);
-        }
+        if ([0,1,2,3,4].every(i => cardGrid[i][i])) { for (let i = 0; i < 5; i++) winningIndices.push([i, i]); }
+        if ([0,1,2,3,4].every(i => cardGrid[i][4 - i])) { for (let i = 0; i < 5; i++) winningIndices.push([i, 4 - i]); }
       } 
       else if (currentPattern === 'CORNERS') {
         if (cardGrid[0][0] && cardGrid[0][4] && cardGrid[4][0] && cardGrid[4][4]) {
@@ -1176,24 +1283,16 @@
         }
       }
 
-      const msg = document.getElementById('player-win-msg');
       if (winningIndices.length > 0) {
         winningIndices.forEach(([r, c]) => {
           const el = document.getElementById(`cell-${r}-${c}`);
           if (el) el.classList.add('winning-cell');
         });
 
-        msg.textContent = "🎉 BINGO! YOU WIN! 🎉";
         if (window.hostConn && window.hostConn.open) {
           window.hostConn.send({ type: 'BINGO', playerAlias: playerAlias });
         }
-      } else {
-        msg.textContent = "";
       }
-    }
-
-    function resetPlayerCard() {
-      generateBingoBoard();
     }
 
     function getPatternName(code) {
@@ -1207,11 +1306,9 @@
     }
 
     // ==========================================
-    // 4. PRINTABLE CARDS GENERATOR (BATCH CHUNKING)
+    // PRINTABLE CARDS GENERATOR (HARRY POTTER CHRISTMAS 2026 WITH STUDENT INFO)
     // ==========================================
-    function showPrintMenu() {
-      showScreen('screen-print-menu');
-    }
+    function showPrintMenu() { showScreen('screen-print-menu'); }
 
     function generateAndPrintCards() {
       const totalCount = parseInt(document.getElementById('card-count').value, 10);
@@ -1233,7 +1330,26 @@
         for (let i = generated + 1; i <= limit; i++) {
           const cardDiv = document.createElement('div');
           cardDiv.classList.add('printable-card');
-          cardDiv.innerHTML = `<h3>ACS M2 BINGO CARD #${i}</h3>`;
+          
+          cardDiv.innerHTML = `
+            <div class="hp-header-title">🎄 Hogwarts Christmas 2026 🎄</div>
+            <div class="hp-sub-title">AC M2 Magical Bingo Card #${i}</div>
+            
+            <!-- STUDENT INFO FIELDS -->
+            <div class="student-info-box">
+              <div class="student-info-field">
+                <strong>Name:</strong> <span class="student-line"></span>
+              </div>
+              <div class="student-info-row">
+                <div class="student-info-field">
+                  <strong>Student ID:</strong> <span class="student-line"></span>
+                </div>
+                <div class="student-info-field" style="margin-left: 8px;">
+                  <strong>Class:</strong> <span class="student-line"></span>
+                </div>
+              </div>
+            </div>
+          `;
 
           const boardDiv = document.createElement('div');
           boardDiv.classList.add('printable-board');
@@ -1255,7 +1371,12 @@
             for (let c = 0; c < 5; c++) {
               const cell = document.createElement('div');
               cell.classList.add('printable-cell');
-              cell.textContent = (r === 2 && c === 2) ? 'FREE' : cols[c][r];
+              if (r === 2 && c === 2) {
+                cell.textContent = 'FREE';
+                cell.classList.add('free');
+              } else {
+                cell.textContent = cols[c][r];
+              }
               boardDiv.appendChild(cell);
             }
           }
@@ -1266,7 +1387,6 @@
 
         printContainer.appendChild(fragment);
         generated = limit;
-
         progressDiv.textContent = `Generating cards... ${generated}/${totalCount}`;
 
         if (generated < totalCount) {
