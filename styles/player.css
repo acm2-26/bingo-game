@@ -99,3 +99,13 @@
 @keyframes claimPulse{ from{ transform:scale(1) } to{ transform:scale(1.035) } }
 .switch{ display:flex; align-items:center; gap:6px; font-size:.75rem; color:var(--muted); white-space:nowrap; }
 .switch input{ width:18px; height:18px; accent-color:var(--gold); }
+
+/* ?debug=1 diagnostics overlay (never shown in a normal game) */
+#debug-panel{
+  position:fixed; right:6px; bottom:calc(env(safe-area-inset-bottom) + 66px);
+  z-index:8500; background:rgba(3,7,18,.94); border:1px solid var(--gold-dim);
+  border-radius:8px; padding:7px 9px; font-family:var(--num-font); font-size:11px;
+  line-height:1.45; color:#cbd5e1; max-width:62vw; pointer-events:none;
+}
+#debug-panel b{ color:var(--gold); font-weight:700; display:inline-block; min-width:44px; }
+#debug-panel .bad{ color:#fca5a5; }

@@ -93,6 +93,12 @@ function boot() {
   // ?pin= is what the QR code encodes; ?room= is kept for QR codes printed
   // before v2.5 and can be removed once none are in circulation.
   const params = new URLSearchParams(location.search);
+
+  // ?debug=1 puts the player's sync state on screen — see player/debug.js.
+  if (params.get('debug')) {
+    import('./player/debug.js').then(m => m.initDebugPanel()).catch(() => {});
+  }
+
   const entry = params.get('pin') || params.get('room');
   if (entry) player.promptJoin(entry);
 }

@@ -4,7 +4,7 @@
  * Nothing here touches the DOM, so it is safe to import from tests.
  */
 
-export const GAME_VERSION = 'v4.3';
+export const GAME_VERSION = 'v4.4';
 
 /** Which transport implementation net/transport.js should build.
  *  'firebase' — central Realtime Database; survives NAT, sleep and Wi-Fi changes

@@ -338,6 +338,9 @@ export function createFirebasePlayer() {
   let lastLimit = null;
   let lastSeenWrite = 0;
   let detachers = [];
+  let lastError = null;      // diagnostics only
+  let lastCallSeen = null;
+  let skipped = null;
 
   const path = child => api.ref(database, `${FIREBASE_ROOT}/${pin}/${child}`);
   const me = () => path(`players/${clientId}`);
@@ -362,8 +365,9 @@ export function createFirebasePlayer() {
     try {
       await api.set(me(), { alias, uid, joinedAt: Date.now(), online: true, lastSeen: Date.now() });
     } catch (err) {
+      lastError = `join failed: ${err && (err.code || err.message)}`;
       console.error('[firebase player] join failed', err);
-      bus.emit('status', 'off', 'The host has not opened this game yet');
+      bus.emit('status', 'off', `Could not join — ${err && (err.code || err.message)}`);
       return;
     }
 
@@ -434,18 +438,30 @@ export function createFirebasePlayer() {
     }));
   }
 
-  /** Read everything a card needs and hand it over as one STATE message. */
+  /** Read everything a card needs and hand it over as one STATE message.
+   *  Any failure here leaves myRound unset, which silently drops every call —
+   *  so failures are reported loudly rather than swallowed. */
   async function emitFullState(meta) {
-    const [history, winners, call] = await Promise.all([
-      api.get(path(`history/${meta.round}`)),
-      api.get(path('winners')),
-      api.get(path('call'))
-    ]);
+    let history, winners, call;
+    try {
+      [history, winners, call] = await Promise.all([
+        api.get(path(`history/${meta.round}`)),
+        api.get(path('winners')),
+        api.get(path('call'))
+      ]);
+    } catch (err) {
+      lastError = `read failed: ${err && (err.code || err.message)}`;
+      console.error('[firebase player] state read failed', err);
+      bus.emit('status', 'off', 'Cannot read the game — check the database rules');
+      return;
+    }
 
     clearTimeout(notFoundTimer);
     // Clear any earlier "not found" message now that real state has arrived.
     if (connected) bus.emit('status', 'on', 'Connected');
-    myRound = meta.round;
+    // Coerce: a round that arrived as a string would fail every call's
+    // `call.round !== myRound` check and drop numbers for the whole game.
+    myRound = Number(meta.round);
     lastPattern = meta.pattern;
     lastLimit = meta.maxWinners;
 
@@ -488,10 +504,18 @@ export function createFirebasePlayer() {
     track(api.onValue(path('call'), snap => {
       const call = snap.val();
       if (!call) return;
-      if (call.round !== myRound) return;   // a call from a round we have left
-      if (call.seq <= lastSeq) return;      // already applied
-      lastSeq = call.seq;
-      bus.emit('message', { type: MSG.CALL, number: call.n });
+      lastCallSeen = call;
+
+      const round = Number(call.round);
+      const seq = Number(call.seq);
+
+      if (myRound === null) { skipped = 'state not synced yet'; return; }
+      if (round !== myRound) { skipped = `round ${round} ≠ mine ${myRound}`; return; }
+      if (seq <= lastSeq) { skipped = `seq ${seq} ≤ ${lastSeq}`; return; }
+
+      skipped = null;
+      lastSeq = seq;
+      bus.emit('message', { type: MSG.CALL, number: Number(call.n) });
     }));
   }
 
@@ -574,6 +598,11 @@ export function createFirebasePlayer() {
       if (api && clientId) api.update(me(), { online: false }).catch(() => {});
     },
     on: bus.on,
-    managesPresence: true
+    managesPresence: true,
+    /** Live state for the on-screen ?debug=1 panel. */
+    stats: () => ({
+      pin, uid, connected, myRound, lastSeq,
+      call: lastCallSeen, skipped, error: lastError
+    })
   };
 }
