@@ -169,3 +169,14 @@ body.caller-fs #caller-fs{ display:flex; }
   #caller-fs{ padding:10px; }
   .fs-num{ font-size:min(34vw,30vh); }
 }
+
+/* The draw button becomes a Begin button while a round has no calls yet, so the
+   host is never left wondering what starts the game the students are waiting for. */
+.btn.begin{
+  background:linear-gradient(135deg,#f5c518,#e07b00);
+  border-color:#fde68a; color:#2a1600;
+  box-shadow:0 0 22px rgba(245,197,24,.55);
+  animation:beginPulse .9s infinite alternate;
+}
+.btn.begin:hover{ filter:brightness(1.06); }
+@keyframes beginPulse{ from{ transform:scale(1) } to{ transform:scale(1.025) } }

@@ -50,6 +50,7 @@ export function paintMasterGrid() {
   const html = recent.map(n => `<span>${callString(n)}</span>`).join('')
     || '<span style="opacity:.4">no previous calls</span>';
   $('host-recent').innerHTML = html;
+  updateDrawButton();
   syncFullCaller(html);
 }
 
@@ -67,6 +68,29 @@ export function setAnnouncement(text, color) {
     if (!el) return;
     el.textContent = text;
     if (color) el.style.color = color;
+  });
+}
+
+/**
+ * The primary caller button doubles as the Begin button.
+ *
+ * Students sit in a lobby that says "waiting for the host to begin", so the
+ * host needs a control that says "begin" — drawing the first number is what
+ * actually starts a round, and this makes that obvious rather than tribal
+ * knowledge. It reverts to "Draw Next Number" once the round is under way, and
+ * returns to "Begin Round N" after every round change.
+ */
+export function updateDrawButton() {
+  const notStarted = game.drawn.length === 0;
+  const label = notStarted
+    ? (game.round === 1 ? '▶️ Begin Game' : `▶️ Begin Round ${game.round}`)
+    : '🎲 Draw Next Number';
+
+  [['draw-btn', ''], ['fs-draw-btn', ' <small>(Space)</small>']].forEach(([id, suffix]) => {
+    const el = $(id);
+    if (!el) return;
+    el.innerHTML = label + suffix;
+    el.classList.toggle('begin', notStarted);
   });
 }
 
